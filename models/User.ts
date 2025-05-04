@@ -9,6 +9,7 @@ export interface IUser {
     avatarUrl?:string;
     bio?:string;
     isAdmin:boolean;
+    isVerified:boolean;
     createdAt?:Date;
     updatedAt?:Date;
 }
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema<IUser>({
     },
     isAdmin:{
         type:Boolean,
-        required:true,
+        default:false
     },
     avatarUrl:{
         type:String,
@@ -43,6 +44,10 @@ const userSchema = new mongoose.Schema<IUser>({
         maxlength:100,
         trim:true,
     },
+    isVerified:{
+        type:Boolean,
+        default:false
+    }
 },{timestamps:true});
 
 userSchema.pre("save",async function(next) {

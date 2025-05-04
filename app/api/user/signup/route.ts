@@ -1,7 +1,12 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
+const redis = new Redis({
+    url:process.env.UPSTASH_REDIS_REST_URL,
+    token:process.env.UPSTASH_REDIS_REST_TOKEN,
+  });
 
 export async function POST(request:NextRequest) {
     const adminEmail = "s.r.m.20.3.2018@gmail.com";
@@ -12,6 +17,11 @@ export async function POST(request:NextRequest) {
                 {error:"Email and Password are required."},
                 {status:400}
             );
+        }
+
+        const isVerified = await redis.get(`verified:${email}`);
+        if(!isVerified) {
+        return NextResponse.json({ error: "Email is not verified" }, { status: 400 });
         }
 
         await dbConnect();
@@ -25,7 +35,7 @@ export async function POST(request:NextRequest) {
             )
         }
         const isAdmin = email === adminEmail;
-        const newUser = await User.create({email,password,username,avatarUrl,bio,isAdmin});
+        const newUser = await User.create({email,password,username,avatarUrl,bio,isAdmin,isVerified:true});
         return NextResponse.json(
             {message:"User signed up successfully",newUser},
             {status:201}

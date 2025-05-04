@@ -24,11 +24,13 @@ export async function POST(req:NextRequest) {
             return NextResponse.json({ message: `Invalid OTP ${storedOtp} ${otp}` },{status:400})
         }
 
+        await redis.set(`verified:${email}`, true, { ex: 600 });
+
         await redis.del(email);
 
         return NextResponse.json({ message: 'OTP verified successfully' },{status:200})
         }catch(error){
-        console.log(error);
+        // console.log(error);
         if(error instanceof Error){
             return NextResponse.json({error:error.message},{status:500})
         }else{

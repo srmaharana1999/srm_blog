@@ -37,7 +37,7 @@ export async function POST(req:NextRequest) {
             Your OTP for signing up is ${otp}.
             Valid for 10 minutes.`
     })
-    return NextResponse.json({ message: `OTP${otp} sent to email` },{status:200})
+    return NextResponse.json({ message: `OTP sent to email` },{status:200})
     }catch(error){
         console.log(error);
         if(error instanceof Error){
