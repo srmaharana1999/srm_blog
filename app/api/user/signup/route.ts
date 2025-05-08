@@ -11,22 +11,22 @@ const redis = new Redis({
 export async function POST(request:NextRequest) {
     const adminEmail = "s.r.m.20.3.2018@gmail.com";
     try{
-        const {username,email,password,avatarUrl=" ",bio} = await request.json();
-        if(!email || !password){
+        const {username,password,avatarUrl=" ",bio} = await request.json();
+        if(!username || !password){
             return NextResponse.json(
                 {error:"Email and Password are required."},
                 {status:400}
             );
         }
 
-        const isVerified = await redis.get(`verified:${email}`);
-        if(!isVerified) {
+        const verifiedEmail = await redis.get('verifiedEmail');
+        if(!verifiedEmail) {
         return NextResponse.json({ error: "Email is not verified" }, { status: 400 });
         }
 
         await dbConnect();
 
-        const existingUser = await User.findOne({email})
+        const existingUser = await User.findOne({verifiedEmail})
 
         if(existingUser){
             return NextResponse.json(
@@ -34,8 +34,9 @@ export async function POST(request:NextRequest) {
                 {status:400}
             )
         }
-        const isAdmin = email === adminEmail;
-        const newUser = await User.create({email,password,username,avatarUrl,bio,isAdmin,isVerified:true});
+        // console.log("here");
+        const isAdmin = verifiedEmail === adminEmail;
+        const newUser = await User.create({email:verifiedEmail,password,username,avatarUrl,bio,isAdmin,isVerified:true});
         return NextResponse.json(
             {message:"User signed up successfully",newUser},
             {status:201}

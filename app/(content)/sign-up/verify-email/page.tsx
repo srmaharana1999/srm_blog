@@ -11,7 +11,7 @@ const VerifyEmail = () => {
   const [status, setStatus] = useState("");
 
   return (
-    <div className="max-w-sm mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
+    <div className="max-sm:w-96 max-w-md mx-auto rounded-2xl p-4 shadow-md shadow-green-300 pb-3">
       {step === "generate" ? (
         <GenerateOTPForm
           setEmail={setEmail}
@@ -21,7 +21,9 @@ const VerifyEmail = () => {
       ) : (
         <OTPForm email={email} setStatus={setStatus} />
       )}
-      {status && <p className="text-xs text-red-500 text-center">{status}</p>}
+      <div className="min-h-4">
+        {status && <p className="text-xs text-red-500 text-center">{status}</p>}
+      </div>
     </div>
   );
 };

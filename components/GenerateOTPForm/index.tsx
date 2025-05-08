@@ -10,7 +10,9 @@ interface IGenerateOTPFormProps {
 }
 const GenerateOTPForm = (props: IGenerateOTPFormProps) => {
   const generateSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Required"),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email address is required."),
   });
 
   return (
@@ -26,7 +28,9 @@ const GenerateOTPForm = (props: IGenerateOTPFormProps) => {
           // console.log(response.data.message);
           props.setEmail(response.data.message);
           props.setStep("verify");
-          props.setStatus("OTP sent to your email.");
+          props.setStatus(
+            `OTP successfully sent to your email ${response.data.message}`
+          );
         } catch (error: any) {
           if (error.response?.data?.message === "OTP already sent") {
             props.setEmail(values.email);
@@ -42,8 +46,10 @@ const GenerateOTPForm = (props: IGenerateOTPFormProps) => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="space-y-4">
-          <h2 className="text-xl font-semibold">Generate OTP</h2>
+        <Form className="space-y-3 p-2">
+          <div className="min-h-4">
+            <h2 className="text-xl font-semibold">Generate OTP</h2>
+          </div>
 
           <Field
             name="email"
@@ -51,12 +57,13 @@ const GenerateOTPForm = (props: IGenerateOTPFormProps) => {
             placeholder="Enter your email"
             className="w-full p-2 border rounded-md"
           />
-          <ErrorMessage
-            name="email"
-            component="div"
-            className="text-red-500 text-sm"
-          />
-
+          <div className="min-h-2">
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="text-red-500 text-xs"
+            />
+          </div>
           <button
             type="submit"
             disabled={isSubmitting}
