@@ -1,7 +1,10 @@
 "use client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { Button } from "../ui/button";
+import { Loader2Icon } from "lucide-react";
+import TextField from "../Inputs/TextField";
 
 interface IGenerateOTPFormProps {
   setEmail: (email: string) => void;
@@ -48,29 +51,25 @@ const GenerateOTPForm = (props: IGenerateOTPFormProps) => {
       {({ isSubmitting }) => (
         <Form className="space-y-3 p-2">
           <div className="min-h-4">
-            <h2 className="text-xl font-semibold">Generate OTP</h2>
+            <h2 className="text-xl font-semibold text-white">Generate OTP</h2>
           </div>
-
-          <Field
+          <TextField
             name="email"
+            label="E-mail"
             type="email"
             placeholder="Enter your email"
-            className="w-full p-2 border rounded-md"
           />
-          <div className="min-h-2">
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="text-red-500 text-xs"
-            />
-          </div>
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+            className=" bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
           >
-            {isSubmitting ? "Sending..." : "Send OTP"}
-          </button>
+            {isSubmitting ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              "Send OTP"
+            )}
+          </Button>
         </Form>
       )}
     </Formik>

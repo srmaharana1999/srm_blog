@@ -3,13 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import dbConnect from "./dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-
-export const authOptions:NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     providers:[
         CredentialsProvider({
             name:'Credentials',
             credentials:{
-                email:{label:"Username",type:"text"},
+                email:{label:"Email",type:"text",placeholder:"abc@domain.com"},
                 password:{label:"Password",type:"password"}
             },
             async authorize(credentials){
@@ -19,7 +18,6 @@ export const authOptions:NextAuthOptions = {
                 try{
                     await dbConnect();
                     const user = await User.findOne({email:credentials.email});
-
                     if(!user){
                         throw new Error('No user found!');
                     }
@@ -29,11 +27,10 @@ export const authOptions:NextAuthOptions = {
                     if(!isValid){
                         throw new Error('Invalid Password.');
                     }
-
                     return {
                         id:user._id.toString(),
                         email:user.email,
-                    }
+                    };
                 }catch(error){
                     console.log("Error at Provider.");
                     throw error;
@@ -43,21 +40,27 @@ export const authOptions:NextAuthOptions = {
     ],
     callbacks:{
         async jwt({token,user}) {
+            // console.log("user : ",user);
             if(user){
                 token.id = user.id;
+                token.email = user.email;
             }
+            // console.log("token : ",token);
             return token;     
         },
         async session({session,token}){
-            if(session.user){
+            // console.log("session : ",session);
+            if(session.user && token){
                 session.user.id = token.id as string
+                session.user.email = token.email as string
             }
+            // console.log("session.user : ",session.user);
             return session;
         }
     },
     pages:{
-        // signIn:"/login",
-        error:"/auth/error"
+        signIn:"/sign-in",
+        error:"/sign-in"
     },
     session:{
         strategy:"jwt",

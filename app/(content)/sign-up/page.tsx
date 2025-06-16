@@ -1,8 +1,12 @@
 "use client";
 import ImageUpload from "@/components/ImageUpload";
+import TextArea from "@/components/Inputs/TextArea";
+import TextField from "@/components/Inputs/TextField";
+import { Button } from "@/components/ui/button";
 import { UploadResponse } from "@imagekit/next";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -64,7 +68,7 @@ const Signup = () => {
               console.log(values);
             } catch (error: any) {
               setStatus(
-                error.response?.data?.message || "OTP verification failed"
+                error.response?.data?.message || "Error in form submission."
               );
             } finally {
               setSubmitting(false);
@@ -72,74 +76,50 @@ const Signup = () => {
           }}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-2 my-2">
-              <Field
+            <Form className="space-y-1 my-2">
+              <TextField
                 name="username"
+                label="Username"
                 type="text"
                 placeholder="Enter your username"
-                className="w-full p-2 border rounded-md"
-                disabled={!avatarUrl}
+                readOnly={!avatarUrl}
               />
-              <div className="min-h-4">
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="text-red-500 text-xs"
-                />
-              </div>
-
-              <Field
+              <TextArea
                 name="bio"
-                type="text"
+                label="Bio"
                 placeholder="Enter your bio"
-                className="w-full p-2 border rounded-md"
-                disabled={!avatarUrl}
+                readOnly={!avatarUrl}
               />
-              <div className="min-h-4">
-                <ErrorMessage
-                  name="bio"
-                  component="div"
-                  className="text-red-500 text-xs"
-                />
-              </div>
-              <Field
+              <TextField
                 name="password"
-                type="password"
-                placeholder="Enter your password"
-                className="w-full p-2 border rounded-md"
-                disabled={!avatarUrl}
+                label="Password"
+                placeholder="Enter your Password"
+                readOnly={!avatarUrl}
               />
-              <div className="min-h-4">
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-xs"
-                />
-              </div>
-              <Field
+              <TextField
                 name="confirmPassword"
-                type="text"
-                placeholder="Enter your confirm password"
-                className="w-full p-2 border rounded-md"
-                disabled={!avatarUrl}
+                label="Confirm Password"
+                placeholder="Enter your Confirm Password"
+                readOnly={!avatarUrl}
               />
-              <div className="min-h-4">
-                <ErrorMessage
-                  name="confirmPassword"
-                  component="div"
-                  className="text-red-500 text-xs"
-                />
-              </div>
-              <button
+
+              <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+                className=" mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-green-700"
               >
-                {isSubmitting ? "Submitting..." : "Sign UP"}
-              </button>
+                {isSubmitting ? (
+                  <Loader2Icon className="animate-spin" />
+                ) : (
+                  "Submit"
+                )}
+              </Button>
             </Form>
           )}
         </Formik>
+      </div>
+      <div className="min-h-4 mt-3">
+        {status && <p className="text-xs text-red-500 text-center">{status}</p>}
       </div>
     </div>
   );
