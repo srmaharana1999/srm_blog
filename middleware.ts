@@ -14,15 +14,21 @@ export default withAuth(
       authorized: ({ token,req }) => {
         const {pathname} = req.nextUrl;
         // console.log(req.nextUrl);
+
         if(pathname.startsWith("/api/auth") 
             || pathname.startsWith("/api/user") 
             || pathname.startsWith("/api/post") 
             || pathname == "/sign-up/verify-email" 
             || pathname == "/sign-up" 
             || pathname == "/api/imagekit-auth"
-            || pathname== "/sign-in"){
+            || pathname == "/sign-in"
+          ){
                 return true;
             }
+
+          if(pathname ==="/"){
+            return true;
+          }
 
         return !!token;
       },
