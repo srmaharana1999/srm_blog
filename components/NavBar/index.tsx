@@ -4,9 +4,12 @@ import NavLink from "./NavLink";
 import { Button } from "../ui/button";
 import { IoClose, IoMenu } from "react-icons/io5";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  console.log("from navbar", session);
   return (
     <div className="fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto bg-white flex justify-between items-center px-6 ">
       <div className="h-7 w-25 lg:w-35 lg:h-8 bg-green-500">LOGO</div>
@@ -18,19 +21,32 @@ const NavBar = () => {
           <NavLink label="Contact Us" href="#contact-us" />
         </ul>
       </div>
-      <div className=" hidden lg:flex gap-4">
-        <Link
-          href="/sign-in"
-          className="text-white font-bold bg-blue-500 px-6 py-2 rounded-3xl text-sm"
-        >
-          Sign in
-        </Link>
-        <Link
-          href="/sign-up/verify-email"
-          className="text-white bg-black px-6 py-2 rounded-3xl text-sm font-bold"
-        >
-          Create Account
-        </Link>
+      <div className=" hidden lg:block">
+        {!session ? (
+          <div className="flex gap-4">
+            <Link
+              href="/sign-in"
+              className="text-white font-bold bg-blue-500 px-6 py-2 rounded-3xl text-sm"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/sign-up/verify-email"
+              className="text-white bg-black px-6 py-2 rounded-3xl text-sm font-bold"
+            >
+              Create Account
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={() => signOut()}
+              className="text-white font-bold bg-red-500 px-6 py-2 rounded-3xl text-sm"
+            >
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
       <div className="lg:hidden">
         <Button
@@ -55,19 +71,33 @@ const NavBar = () => {
           <NavLink label="All Blogs" href="#" />
           <NavLink label="About" href="#" />
           <NavLink label="Contact Us" href="#contact-us" />
-          <div className="flex gap-4 ">
-            <Link
-              href="/sign-in"
-              className="text-white font-bold bg-blue-500 px-6 py-2 rounded-3xl "
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/sign-up/verify-email"
-              className="text-white font-bold bg-black px-6 py-2 rounded-3xl"
-            >
-              Create Account
-            </Link>
+          <div className=" block lg:hidden">
+            {!session ? (
+              <div className="flex gap-4">
+                <Link
+                  href="/sign-in"
+                  className="text-white font-bold bg-blue-500 px-6 py-2 rounded-3xl text-sm"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/sign-up/verify-email"
+                  className="text-white bg-black px-6 py-2 rounded-3xl text-sm font-bold"
+                >
+                  Create Account
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <button
+                  type="button"
+                  onClick={() => signOut()}
+                  className="text-white font-bold bg-red-500 px-6 py-2 rounded-3xl text-sm"
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
           </div>
         </ul>
       </div>
