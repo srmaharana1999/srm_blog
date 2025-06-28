@@ -63,7 +63,7 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-1: oklch(0.7925 0.1347 192.37);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
@@ -117,6 +117,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-foreground text-foreground;
+    @apply bg-gradient-to-r from-slate-900 to-slate-700 text-foreground;
+  }
+}
+
+@layer components {
+  .lower-bar {
+    @apply relative w-fit after:block after:content-[''] after:h-[7px] after:w-full after:bg-white/60;
+  }
+  .left-bar {
+    @apply relative h-6 before:block before:content-[''] before:w-1 before:bg-white/60;
   }
 }

@@ -11,10 +11,19 @@ const NavBar = () => {
   const { data: session } = useSession();
   console.log("from navbar", session);
   return (
-    <div className="fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto bg-white flex justify-between items-center px-6 ">
-      <div className="h-7 w-25 lg:w-35 lg:h-8 bg-green-500">LOGO</div>
+    <div className="group fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto text-black flex justify-between items-center px-6 border-b-1 border-violet-400 z-30 ">
+      <div className="text-white lower-bar border-1 p-2 rounded-md bg-black/15">
+        <div className="flex text-3xl text-chart-1 left-bar pl-1">
+          <span className="text-chart-1 font-semibold px-1">blog</span>
+
+          <div className="flex bg-white/60 rounded-t-xl px-1">
+            <p className="text-white group-hover:text-black">IT </p>&#45;
+            <p className="text-black group-hover:text-white font-bold">X</p>
+          </div>
+        </div>
+      </div>
       <div>
-        <ul className="list-none hidden lg:flex gap-10 text-md">
+        <ul className="list-none hidden lg:flex gap-10 text-md ">
           <NavLink label="Home" href="/" />
           <NavLink label="All Blogs" href="#" />
           <NavLink label="About" href="#" />
@@ -32,7 +41,7 @@ const NavBar = () => {
             </Link>
             <Link
               href="/sign-up/verify-email"
-              className="text-white bg-black px-6 py-2 rounded-3xl text-sm font-bold"
+              className="text-black bg-fuchsia-200 px-6 py-2 rounded-3xl text-sm font-bold"
             >
               Create Account
             </Link>
@@ -64,7 +73,7 @@ const NavBar = () => {
       <div
         className={`${
           open ? "translate-x-0" : "-translate-x-[100vw]"
-        } w-full absolute left-0 lg:hidden top-full h-[calc(100vh-80px)] origin-top bg-white transition-all duration-500 flex flex-col justify-center items-center`}
+        } w-full absolute left-0 lg:hidden top-full h-[calc(100vh-80px)] origin-top bg-gradient-to-r from-slate-900 to-slate-700 transition-all duration-500 flex flex-col justify-center items-center`}
       >
         <ul className="list-none text-xl flex flex-col justify-center items-center gap-10">
           <NavLink label="Home" href="/" />
