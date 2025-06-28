@@ -117,7 +117,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-gradient-to-r from-slate-900 to-slate-700 text-foreground;
+    @apply bg-gradient-to-r from-slate-900 to-slate-700 text-background;
   }
 }
 
@@ -127,5 +127,8 @@
   }
   .left-bar {
     @apply relative h-6 before:block before:content-[''] before:w-1 before:bg-white/60;
+  }
+  .tag {
+    @apply flex items-center justify-center w-fit px-2 text-xs bg-transparent text-green-400 border-1 border-green-400 rounded-2xl;
   }
 }
