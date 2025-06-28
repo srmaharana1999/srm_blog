@@ -1,13 +1,15 @@
 import CTA from "@/components/CTA";
+import RecentPost from "@/components/Home/RecentPost";
+import RecentPosts from "@/components/Home/RecentPosts/Index";
 import Image from "next/image";
 
 const Home = () => {
   return (
-    <div className="mt-25 max-w-7xl w-full p-4">
+    <div className="mt-25 max-w-7xl mx-auto w-full p-4">
       <div className="w-11/12 mx-auto flex flex-col-reverse md:flex-row text-white gap-6 md:gap-0">
         <div className="w-full md:w-1/2 bg-amber-90 flex flex-col gap-6 md:justify-between md:gap-0 text-center md:text-left">
           <h1 className="text-5xl lg:text-7xl font-semibold ">
-            <text className="text-violet-500">blog IT.</text>
+            <text className="text-chart-1">blog IT.</text>
             <text className="text-fuchsia-500">post IT.</text> <br />
             <text className="text-blue-500">Rule the Feed!</text>
           </h1>
@@ -24,16 +26,19 @@ const Home = () => {
         </div>
         <div className="h-full w-full md:w-1/2 justify-items-center md:justify-items-end-safe">
           <div className="w-fit h-fit bg-gradient-to-r from-violet-200 to-pink-200 rounded-2xl ">
-            <div className="relative w-[80vw] md:w-[35vw] aspect-square">
-              <Image
-                src="/images/hero-image.png"
-                alt="hero_image"
-                fill
-                className="object-contain"
-              />
-            </div>
+            <Image
+              src="/images/hero-image.png"
+              alt="hero_image"
+              height={500}
+              width={500}
+              className="object-contain"
+            />
           </div>
         </div>
+      </div>
+      <div className="w-11/12 mx-auto my-16">
+        <RecentPost />
+        <RecentPosts />
       </div>
     </div>
   );

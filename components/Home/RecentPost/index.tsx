@@ -15,13 +15,13 @@ const RecentPost = () => {
       </div>
       <div className="flex flex-col">
         <div className="flex gap-4 my-1">
-          <text className="tag">new</text> <text className="tag">article</text>
+          <p className="tag">new</p> <p className="tag">article</p>
         </div>
 
-        <h2 className="text-2xl font-medium mb-6">
+        <h2 className="text-2xl font-medium">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         </h2>
-        <p className="text-justify">
+        <p className="text-justify my-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia iusto a
           officia harum! Ratione repellat natus, asperiores ducimus voluptatibus
           nobis neque deserunt animi nesciunt impedit aperiam cupiditate

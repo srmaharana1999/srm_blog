@@ -11,7 +11,7 @@ const NavBar = () => {
   const { data: session } = useSession();
   console.log("from navbar", session);
   return (
-    <div className="group fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto text-black flex justify-between items-center px-6 border-b-1 border-violet-400 z-30 ">
+    <div className="group fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto text-black flex justify-between items-center px-6 border-b-1 border-violet-400 z-30 bg-black/90">
       <div className="text-white lower-bar border-1 p-2 rounded-md bg-black/15">
         <div className="flex text-3xl text-chart-1 left-bar pl-1">
           <span className="text-chart-1 font-semibold px-1">blog</span>
@@ -72,7 +72,7 @@ const NavBar = () => {
       </div>
       <div
         className={`${
-          open ? "translate-x-0" : "-translate-x-[100vw]"
+          open ? "translate-x-0" : "-translate-x-[110vw]"
         } w-full absolute left-0 lg:hidden top-full h-[calc(100vh-80px)] origin-top bg-gradient-to-r from-slate-900 to-slate-700 transition-all duration-500 flex flex-col justify-center items-center`}
       >
         <ul className="list-none text-xl flex flex-col justify-center items-center gap-10">
