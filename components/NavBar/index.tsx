@@ -25,7 +25,7 @@ const NavBar = () => {
       <div>
         <ul className="list-none hidden lg:flex gap-10 text-md ">
           <NavLink label="Home" href="/" />
-          <NavLink label="All Blogs" href="#" />
+          <NavLink label="All Blogs" href="/blogs" />
           <NavLink label="About" href="#" />
           <NavLink label="Contact Us" href="#contact-us" />
         </ul>
@@ -77,7 +77,7 @@ const NavBar = () => {
       >
         <ul className="list-none text-xl flex flex-col justify-center items-center gap-10">
           <NavLink label="Home" href="/" />
-          <NavLink label="All Blogs" href="#" />
+          <NavLink label="All Blogs" href="/blogs" />
           <NavLink label="About" href="#" />
           <NavLink label="Contact Us" href="#contact-us" />
           <div className=" block lg:hidden">
