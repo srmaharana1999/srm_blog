@@ -5,20 +5,20 @@ import Image from "next/image";
 
 const Home = () => {
   return (
-    <div className="mt-25 max-w-7xl mx-auto w-full p-4">
+    <div className="mt-25 max-w-7xl mx-auto w-full">
       <div className="w-11/12 mx-auto flex flex-col-reverse md:flex-row text-white gap-6 md:gap-0">
         <div className="w-full md:w-1/2 bg-amber-90 flex flex-col gap-6 md:justify-between md:gap-0 text-center md:text-left">
           <h1 className="text-5xl lg:text-7xl font-semibold ">
-            <text className="text-chart-1">blog IT.</text>
-            <text className="text-fuchsia-500">post IT.</text> <br />
-            <text className="text-blue-500">Rule the Feed!</text>
+            <p className="text-chart-1 inline">blog IT.</p>
+            <p className="text-fuchsia-500 inline">post IT.</p> <br />
+            <span className="text-blue-500">Rule the Feed!</span>
           </h1>
           <h3 className="text-2xl lg:text-3xl text-[#dbcdce] ">
             Got something to say?{" "}
           </h3>
           <p className="md:text-xs lg:text-lg tracking-widest">
             Start your own{" "}
-            <text className="text-fuchsia-500 font-semibold">post</text>, share
+            <span className="text-fuchsia-500 font-semibold">post</span>, share
             cool ideas, post fun stuff, and see what others are writing too.
             It&apos;s easy, exciting, and totally yours!
           </p>

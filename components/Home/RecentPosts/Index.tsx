@@ -1,3 +1,4 @@
+import Link from "next/link";
 import RecentPostTile from "./RecentPostTile";
 import {
   Carousel,
@@ -48,7 +49,16 @@ const blogs = [
 const RecentPosts = () => {
   return (
     <div className="my-16 w-full">
-      <h3 className="text-xl mb-6">Latest Posts</h3>
+      <div className=" flex items-center justify-between mb-10">
+        <h2 className="text-2xl">Latest Posts</h2>
+        <Link
+          href="/blogs"
+          className="inline-flex bg-transparent hover:bg-white/10 text-blue-500 ring-1 ring-blue-400 rounded-md py-1.5 px-4 text-sm"
+        >
+          View More
+        </Link>
+      </div>
+
       <Carousel
         className="w-10/12 mx-auto"
         opts={{ slidesToScroll: "auto", dragFree: true }}
