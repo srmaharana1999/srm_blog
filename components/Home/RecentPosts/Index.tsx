@@ -49,7 +49,10 @@ const RecentPosts = () => {
   return (
     <div className="my-16 w-full">
       <h3 className="text-xl mb-6">Latest Posts</h3>
-      <Carousel className="w-11/12 mx-auto bg-black/5 p-4">
+      <Carousel
+        className="w-10/12 mx-auto"
+        opts={{ slidesToScroll: "auto", dragFree: true }}
+      >
         {" "}
         <CarouselContent className="mx-auto ">
           {blogs.map((blog, index) => (
