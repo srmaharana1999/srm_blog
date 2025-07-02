@@ -1,7 +1,7 @@
 
 export const Blogs = [
   {
-    imageUrl: "/images/card-img-1.svg",
+    imageUrl: "/images/sample_img.jpg",
     title: "10 Tips for Effective Remote Work",
     author: "Jane Doe",
     readMoreUrl: "#",
