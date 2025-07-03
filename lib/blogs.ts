@@ -46,3 +46,27 @@ export const Blogs = [
       "Artificial Intelligence is revolutionizing the education sector, and its impact will only grow in the coming years. This blog explores how AI is being used to personalize learning, automate administrative tasks, and provide intelligent tutoring systems. It discusses both the opportunities and challenges of integrating AI in classrooms, from data privacy concerns to the importance of teacher involvement. With real-world examples and future predictions, the article gives readers a comprehensive look at how technology can enhance education. Whether you're an educator, student, or policymaker, this post will broaden your understanding of AI's role in shaping learning environments."
   }
 ];
+
+export const categories = [
+  { label: "JavaScript", value: "javascript" },
+  { label: "Web Development", value: "web-development" },
+  { label: "React", value: "react" },
+  { label: "UI/UX Design", value: "ui-ux-design" },
+  { label: "Career Tips", value: "career-tips" },
+  { label: "Remote Work", value: "remote-work" },
+  { label: "Frontend", value: "frontend" },
+  { label: "Backend", value: "backend" },
+  { label: "Machine Learning", value: "machine-learning" },
+  { label: "Data Structures", value: "data-structures" },
+  { label: "DevOps", value: "devops" },
+  { label: "APIs", value: "apis" },
+  { label: "Mobile Development", value: "mobile-development" },
+  { label: "Cloud Computing", value: "cloud-computing" },
+  { label: "Cybersecurity", value: "cybersecurity" },
+  { label: "AI & Automation", value: "ai-automation" },
+  { label: "Open Source", value: "open-source" },
+  { label: "Programming Basics", value: "programming-basics" },
+  { label: "Database Management", value: "database-management" },
+  { label: "Productivity", value: "productivity" }
+];
+

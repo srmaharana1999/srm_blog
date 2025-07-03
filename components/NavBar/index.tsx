@@ -9,7 +9,7 @@ import { signOut, useSession } from "next-auth/react";
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
-  console.log("from navbar", session);
+  // console.log("from navbar", session);
   return (
     <div className="group fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto text-black flex justify-between items-center px-6 border-b-1 border-violet-400 z-30 bg-black/90">
       <div className="text-white lower-bar border-1 p-2 rounded-md bg-black/15">
