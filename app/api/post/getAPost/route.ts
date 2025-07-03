@@ -11,7 +11,7 @@ export async function GET() {
         if(!session){
             return NextResponse.json({error:"Unauthorized"},{status:400})
         }
-        console.log(session?.user);
+        // console.log(session?.user);
         return NextResponse.json({message:session?.user.email},{status:200})
     }catch(error){
         console.log(error);
