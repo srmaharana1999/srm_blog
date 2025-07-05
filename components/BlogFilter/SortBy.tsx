@@ -19,12 +19,12 @@ const SortBy = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="bg-green-100 text-black inline-flex items-center"
+          className="bg-green-100 w-32 text-black inline-flex items-center justify-evenly"
         >
           Sort By <BiSolidSortAlt />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-36">
+      <DropdownMenuContent className="w-32">
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <DropdownMenuRadioItem value="AtoZ">A to Z</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="ZtoA">Z to A</DropdownMenuRadioItem>

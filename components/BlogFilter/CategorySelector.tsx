@@ -8,7 +8,7 @@ import {
 const CategorySelector = () => {
   return (
     <Select>
-      <SelectTrigger className="w-full bg-green-100 text-black font-medium outline-0">
+      <SelectTrigger className=" w-full bg-green-100 text-black font-medium outline-0">
         <SelectValue placeholder="Category" className="text-black" />
       </SelectTrigger>
       <SelectContent className="text-black">
