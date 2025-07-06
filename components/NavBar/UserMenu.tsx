@@ -14,10 +14,12 @@ import Image from "next/image";
 import { IUser } from "@/models/User";
 import axios from "axios";
 import { signOut } from "next-auth/react";
+
 interface IUserProps {
   id: string;
   email: string;
 }
+
 const UserMenu = (user: IUserProps) => {
   const [userDetails, setUserDetails] = React.useState<IUser>();
   const [loading, setLoading] = React.useState(false);
@@ -55,7 +57,7 @@ const UserMenu = (user: IUserProps) => {
               )}
             </p>
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-black/80 text-white">
+          <NavigationMenuContent className="bg-gradient-to-r from-slate-900 to-slate-700 text-white">
             <div className="w-48 border-b-1 pb-2 mb-2 text-xs md:text-sm">
               {!userDetails || !loading ? (
                 <>
@@ -96,9 +98,9 @@ const UserMenu = (user: IUserProps) => {
                 <NavigationMenuLink asChild>
                   <Link
                     href="#"
-                    className="hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-cyan-500 hover:text-white hover:font-medium"
+                    className="hover:bg-gradient-to-r hover:from-cyan-500 hover:to-fuchsia-500 hover:text-white"
                   >
-                    Create a Blog !
+                    Create Blog!
                   </Link>
                 </NavigationMenuLink>
               </li>

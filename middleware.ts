@@ -26,9 +26,9 @@ export default withAuth(
                 return true;
             }
 
-          // if(pathname ==="/"){
-          //   return true;
-          // }
+          if(pathname ==="/" || pathname==="/blogs"){
+            return true;
+          }
 
         return !!token;
       },

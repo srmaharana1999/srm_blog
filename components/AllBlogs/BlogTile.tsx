@@ -26,10 +26,10 @@ const BlogTile = (props: IBlog) => {
           Learn More
         </Link>
 
-        <div className="flex gap-2 items-center justify-between cursor-pointer mt-auto">
-          <span className="inline-flex items-center gap-2">
-            <RxAvatar className="text-2xl" />
-            <p className="italic">{props.author}</p>
+        <div className="flex gap-2 items-center justify-between  mt-auto">
+          <span className="inline-flex items-center gap-2 ">
+            <RxAvatar className="text-2xl cursor-pointer" />
+            <p className="italic cursor-pointer">{props.author}</p>
           </span>
 
           <span className="tag">new</span>

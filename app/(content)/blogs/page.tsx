@@ -3,7 +3,12 @@ import BlogFilter from "@/components/BlogFilter";
 import ToggleSwitch from "@/components/BlogFilter/ToggleButton";
 import Link from "next/link";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
-const blogsPage = () => {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+const blogsPage = async () => {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="mt-30 max-w-7xl mx-auto w-11/12 relative">
       <div className="flex justify-between items-center mb-12">
@@ -16,7 +21,7 @@ const blogsPage = () => {
             All Blogs
           </Link>
         </div>
-        <ToggleSwitch />
+        {session ? <ToggleSwitch /> : null}
       </div>
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:flex-2 h-32 lg:order-2 ">
