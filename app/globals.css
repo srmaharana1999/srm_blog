@@ -142,10 +142,10 @@
 
 @layer components {
   .lower-bar {
-    @apply relative w-fit after:block after:content-[''] after:h-[7px] after:w-full after:bg-white/60;
+    @apply relative w-fit after:block after:content-[''] after:h-[7px] after:w-full after:bg-white/40;
   }
   .left-bar {
-    @apply relative h-6 before:block before:content-[''] before:w-1 before:bg-white/60;
+    @apply relative h-6 before:block before:content-[''] before:w-0.5 before:bg-white/40;
   }
   .tag {
     @apply flex items-center cursor-pointer justify-center w-fit px-2 py-0.5 text-xs bg-green-200 text-green-800 hover:ring-1 hover:ring-green-900 rounded-2xl capitalize;
