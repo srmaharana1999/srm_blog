@@ -26,9 +26,9 @@ export default withAuth(
                 return true;
             }
 
-          if(pathname ==="/"){
-            return true;
-          }
+          // if(pathname ==="/"){
+          //   return true;
+          // }
 
         return !!token;
       },

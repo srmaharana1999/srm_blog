@@ -5,11 +5,13 @@ import { Button } from "../ui/button";
 import { IoClose, IoMenu } from "react-icons/io5";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import UserMenu from "./UserMenu";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
-  // console.log("from navbar", session);
+  const userData = session?.user;
+  // console.log("fromnavbar", userData);
   return (
     <div className="group fixed top-0 left-1/2 -translate-x-1/2 max-w-7xl w-full h-20 mx-auto text-black flex justify-between items-center px-6 border-b-1 border-violet-400 z-30 bg-black/90">
       <div className="text-white lower-bar border-1 p-2 rounded-md bg-black/15">
@@ -47,17 +49,20 @@ const NavBar = () => {
             </Link>
           </div>
         ) : (
-          <div>
-            <button
-              onClick={() => signOut()}
-              className="text-white font-bold bg-red-500 px-6 py-2 rounded-3xl text-sm"
-            >
-              Sign out
-            </button>
+          <div className="hidden lg:flex gap-4">
+            {session.user ? (
+              <UserMenu
+                id={String(session.user.id)}
+                email={session.user.email || ""}
+              />
+            ) : null}
           </div>
         )}
       </div>
-      <div className="lg:hidden">
+      <div className="lg:hidden flex gap-4">
+        {userData ? (
+          <UserMenu id={String(userData.id)} email={userData.email || ""} />
+        ) : null}
         <Button
           className="border-2 rounded-lg px-2 py-1"
           type="button"
