@@ -62,17 +62,25 @@
   --font-weight-base: 500;
   --font-weight-heading: 700;
 }
+
 ::-webkit-scrollbar {
-  display: none;
   width: 6px;
   border-radius: 9999px;
 }
+::-webkit-scrollbar-thumb {
+  background-color: blueviolet;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @layer base {
   body {
     @apply text-foreground font-base bg-black/20;
   }
   .border-shadow {
-    @apply rounded-base border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all ease-in-out duration-100;
+    @apply rounded-base border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all ease-in-out duration-150;
   }
   h1,
   h2,
@@ -93,5 +101,15 @@
   }
   .tag {
     @apply flex items-center cursor-pointer justify-center w-fit px-2 py-0.5 text-xs bg-green-200 text-green-800 hover:ring-1 hover:ring-green-900 rounded-2xl capitalize;
+  }
+  .nav-logo::before {
+    content: "";
+    display: inline-block;
+    flex-direction: row;
+    width: 1.5rem; /* Set size */
+    height: 1.5rem;
+    background-image: url("/images/logo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }

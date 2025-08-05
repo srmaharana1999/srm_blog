@@ -97,7 +97,7 @@ const UserMenu = (user: IUserProps) => {
               <li>
                 <NavigationMenuLink asChild>
                   <Link
-                    href="#"
+                    href="/blogs/create"
                     className="hover:bg-gradient-to-r hover:from-cyan-500 hover:to-fuchsia-500 hover:text-white"
                   >
                     Create Blog!
@@ -107,7 +107,7 @@ const UserMenu = (user: IUserProps) => {
               <li>
                 <button
                   onClick={() => signOut()}
-                  className="text-white bg-red-600 hover:bg-red-500 font-semibold cursor-pointer rounded-md py-2 text-sm w-full shadow-md mt-2"
+                  className="text-white bg-red-600 hover:bg-red-500 font-semibold cursor-pointer py-2 text-sm w-full border-shadow mt-2"
                 >
                   Sign out
                 </button>

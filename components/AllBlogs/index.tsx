@@ -3,7 +3,7 @@ import BlogTile from "./BlogTile";
 
 const AllBlogs = () => {
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="w-full flex flex-col gap-8 pr-2">
       {Blogs.map((blog, index) => (
         <BlogTile key={index} {...blog} />
       ))}
