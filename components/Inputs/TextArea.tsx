@@ -1,4 +1,5 @@
 import { useField } from "formik";
+import { Textarea } from "../ui/textarea";
 
 interface IProps {
   name: string;
@@ -15,12 +16,15 @@ const TextArea = (props: IProps) => {
       {props.label ? (
         <label className="text-sm text-gray-700">{props.label}</label>
       ) : null}
-      <textarea
-        className={`p-4 mt-1 text-sm w-full border-[1px] outline-none rounded-lg placeholder:text-gray-500 ${
+      <Textarea
+        className={`py-4 px-4 w-full mt-1 ${
           meta.touched && meta.error ? "text-red-500 border-red-500" : ""
-        } `}
+        } ${
+          props.readOnly ? "cursor-not-allowed" : ""
+        } placeholder:text-gray-500`}
         {...field}
         {...props}
+        placeholder={props.placeholder ?? `Enter ${props.label}`}
         readOnly={props.readOnly}
       />
       <div className="min-h-4">

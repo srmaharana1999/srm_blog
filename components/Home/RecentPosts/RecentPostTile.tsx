@@ -10,7 +10,7 @@ interface ITileProps {
 }
 const RecentPostTile = (props: ITileProps) => {
   return (
-    <div className="w-full p-4 min-w-40 h-full border-1 border-white/50 rounded-2xl flex flex-col bg-white/15">
+    <div className="w-full p-4 min-w-40 h-full border-shadow flex flex-col bg-white/15">
       <div className="h-72 w-full relative rounded-t-xl">
         <Image
           src={props.imageUrl}

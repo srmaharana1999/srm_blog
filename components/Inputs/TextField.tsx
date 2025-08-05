@@ -14,7 +14,7 @@ const TextField = (props: IProps) => {
   return (
     <div className="">
       {props.label ? (
-        <label className="text-sm text-white">{props.label}</label>
+        <label className="text-sm text-gray-700">{props.label}</label>
       ) : null}
       <Input
         className={`py-4 px-4 w-full mt-1 ${

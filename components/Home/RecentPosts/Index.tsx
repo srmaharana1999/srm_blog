@@ -53,7 +53,7 @@ const RecentPosts = () => {
         <h2 className="text-2xl">Latest Posts</h2>
         <Link
           href="/blogs"
-          className="inline-flex bg-transparent hover:bg-white/10 text-blue-500 ring-1 ring-blue-400 rounded-md py-1.5 px-4 text-sm"
+          className="inline-flex bg-main hover:bg-white text-black border-shadow ring-blue-400 py-1.5 px-4 text-sm"
         >
           View More
         </Link>
@@ -64,7 +64,7 @@ const RecentPosts = () => {
         opts={{ slidesToScroll: "auto", dragFree: true }}
       >
         {" "}
-        <CarouselContent className="mx-auto ">
+        <CarouselContent className="mx-auto m-4">
           {blogs.map((blog, index) => (
             <CarouselItem key={index} className=" lg:basis-1/2">
               <RecentPostTile {...blog} />
