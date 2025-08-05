@@ -77,7 +77,7 @@
 
 @layer base {
   body {
-    @apply text-foreground font-base bg-black/20;
+    @apply text-foreground font-base bg-black/10;
   }
   .border-shadow {
     @apply rounded-base border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all ease-in-out duration-150;

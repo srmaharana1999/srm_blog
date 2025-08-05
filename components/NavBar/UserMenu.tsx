@@ -47,17 +47,20 @@ const UserMenu = (user: IUserProps) => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="rounded-md ">
-            <p className="inline-flex items-center gap-2">
-              {/* <RxAvatar className="text-lg" /> */}
+          <NavigationMenuTrigger className="w-fit h-fit p-0 list-none ">
+            <p className="inline-flex items-center justify-center gap-1 text-sm lg:text-lg">
+              {/*  */}
               {loading ? (
-                <RxAvatar className="text-lg" />
+                "loading"
               ) : (
-                userDetails?.username || "user"
+                <>
+                  <RxAvatar className="hidden md:text-lg md:block " />{" "}
+                  {userDetails?.username}
+                </>
               )}
             </p>
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-gradient-to-r from-slate-900 to-slate-700 text-white">
+          <NavigationMenuContent className="bg-background text-gray-800">
             <div className="w-48 border-b-1 pb-2 mb-2 text-xs md:text-sm">
               {!userDetails || !loading ? (
                 <>
@@ -69,7 +72,7 @@ const UserMenu = (user: IUserProps) => {
                       width={44}
                       className="object-cover rounded-md flex-2"
                     />
-                    <div className="flex-4 text-white/70 text-xs self-center">
+                    <div className="flex-4 text-gray-600 text-xs self-center">
                       <p className=" break-all leading-tight mb-2">
                         {userDetails?.email ? userDetails.email : user.email}
                       </p>
@@ -83,7 +86,7 @@ const UserMenu = (user: IUserProps) => {
                 <p>Loading...</p>
               )}
             </div>
-            <ul className="flex flex-col list-none">
+            <ul className="flex flex-col list-none text-sm">
               <li>
                 <NavigationMenuLink asChild>
                   <Link href="#">View Profile</Link>
@@ -107,7 +110,7 @@ const UserMenu = (user: IUserProps) => {
               <li>
                 <button
                   onClick={() => signOut()}
-                  className="text-white bg-red-600 hover:bg-red-500 font-semibold cursor-pointer py-2 text-sm w-full border-shadow mt-2"
+                  className="text-white bg-red-600 hover:bg-red-500 font-semibold cursor-pointer py-1 my-1 text-sm w-full border-shadow mt-2"
                 >
                   Sign out
                 </button>
