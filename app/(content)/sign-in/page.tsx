@@ -24,7 +24,7 @@ const Signin = () => {
   const [status, setStatus] = useState("");
   const router = useRouter();
   return (
-    <div className="max-sm:w-96 max-w-md mx-auto text-white rounded-2xl p-6  shadow-md shadow-green-300 space-y-4">
+    <div className="max-sm:w-96 max-w-md mx-auto text-white p-6 rounded-base border-border border-2 shadow-shadow space-y-4">
       <h1 className="text-2xl font-semibold text-center mb-6">SIGN IN</h1>
       <Formik
         initialValues={{

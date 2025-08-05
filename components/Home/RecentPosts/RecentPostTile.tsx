@@ -10,7 +10,7 @@ interface ITileProps {
 }
 const RecentPostTile = (props: ITileProps) => {
   return (
-    <div className="w-full p-4 min-w-40 h-full border-shadow flex flex-col bg-white/15">
+    <div className="w-full p-4 min-w-40 h-full border-shadow flex flex-col hover:bg-white">
       <div className="h-72 w-full relative rounded-t-xl">
         <Image
           src={props.imageUrl}
@@ -24,7 +24,7 @@ const RecentPostTile = (props: ITileProps) => {
         <p className=" italic">{props.author}</p>
       </div>
 
-      <div className="flex justify-between text-white/70 text-sm mt-auto">
+      <div className="flex justify-between text-black/60 text-sm mt-auto">
         <span className="text-left">{props.createdAt}</span>
         <Link href="#" className="text-right">
           Read More

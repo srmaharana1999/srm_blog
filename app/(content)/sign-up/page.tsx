@@ -5,7 +5,7 @@ import TextField from "@/components/Inputs/TextField";
 import { Button } from "@/components/ui/button";
 import { UploadResponse } from "@imagekit/next";
 import axios from "axios";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import * as Yup from "yup";
@@ -36,7 +36,7 @@ const Signup = () => {
     setAvatarUrl(res);
   };
   return (
-    <div className="max-sm:w-96 max-w-md mx-auto rounded-2xl p-4 shadow-md shadow-green-300 pb-3 space-y-4">
+    <div className="max-sm:w-96 max-w-md mx-auto rounded-base border-border border-2 shadow-shadow p-4  pb-3 space-y-4">
       <div className="h-48">
         <ImageUpload onSuccess={handleUpload} />
       </div>

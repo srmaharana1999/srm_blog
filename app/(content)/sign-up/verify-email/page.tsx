@@ -11,7 +11,7 @@ const VerifyEmail = () => {
   const [status, setStatus] = useState("");
 
   return (
-    <div className="max-sm:w-96 max-w-sm mx-auto rounded-2xl p-4 shadow-md shadow-green-300 pb-3">
+    <div className="max-sm:w-96 max-w-sm mx-auto rounded-base border-border border-2 shadow-shadow p-4  pb-3">
       {step === "generate" ? (
         <GenerateOTPForm
           setEmail={setEmail}
