@@ -13,7 +13,7 @@ const blogsPage = async () => {
     <div className="mt-30 max-w-7xl mx-auto w-11/12 relative">
       <div className="flex justify-between items-center mb-12">
         <div className=" inline-flex text-sm gap-1.5">
-          <Link href="/" className="text-white/70">
+          <Link href="/" className="text-black/80">
             Home
           </Link>
           <MdOutlineArrowRightAlt className="self-center" />{" "}
