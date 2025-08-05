@@ -20,7 +20,7 @@ const ToggleSwitch = () => {
         className="sr-only"
       />
       <div
-        className={`ring-1 flex px-4 flex-col justify-center font-semibold w-full h-full rounded-full shadow-md transition-all ease-in-out duration-200 ${
+        className={`border-1 border-border shadow-shadow text-white flex px-4 flex-col justify-center font-semibold w-full h-full rounded-full transition-all ease-in-out duration-200 ${
           enabled
             ? "bg-gradient-to-r from-fuchsia-500 to-cyan-500"
             : "bg-gray-500"

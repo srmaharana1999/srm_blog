@@ -17,10 +17,7 @@ const SortBy = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="bg-green-100 w-32 text-black inline-flex items-center justify-evenly"
-        >
+        <Button className="bg-green-100 w-32 text-black inline-flex items-center justify-evenly">
           Sort By <BiSolidSortAlt />
         </Button>
       </DropdownMenuTrigger>
