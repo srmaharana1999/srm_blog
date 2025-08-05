@@ -1,7 +1,8 @@
 import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnect";
-import Category from "@/models/Category";
-import Post from "@/models/Post";
+import Category from "@/lib/models/Category";
+import Post from "@/lib/models/Post";
+
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
 
     await dbConnect();
 
-    const {title,content,featuredImage,isPublished=false,status,categoryId,newCategory} = await req.json();
+    const {title,content,featuredImage,status,categoryId,newCategory,allowComments=true} = await req.json();
     
     let finalCategoryId = categoryId;
 
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({error:"Category is required."},{status:400});
     }
 
-    const newPost = await Post.create({title,content,featuredImage,isPublished,status,categoryId:finalCategoryId,ownerId})
+    const newPost = await Post.create({title,content,featuredImage,status,categoryId:finalCategoryId,ownerId,allowComments})
     
     return NextResponse.json(
       {

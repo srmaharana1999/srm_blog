@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
+import User from "@/lib/models/User";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest) {
     try{

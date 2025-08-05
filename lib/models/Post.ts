@@ -6,8 +6,8 @@ export interface IPost {
     content:string;
     slug:string;
     featuredImage:string;
-    isPublished:boolean;
     status:string;
+    allowComments:boolean;
     ownerId:mongoose.Schema.Types.ObjectId;
     categoryId:mongoose.Schema.Types.ObjectId;
     createdAt?:Date;
@@ -33,14 +33,14 @@ const postSchema = new mongoose.Schema<IPost>({
     featuredImage:{
         type:String,
     },
-    isPublished:{
-        type:Boolean,
-        default:false,
-    },
     status:{
         type:String,
-        enum:['public','private'],
-        default:'private'
+        enum:['public','private','draft'],
+        default:'draft'
+    },
+    allowComments: {
+    type: Boolean,
+    default: true
     },
     ownerId:{
         type:mongoose.Schema.Types.ObjectId,

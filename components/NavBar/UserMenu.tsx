@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { RxAvatar } from "react-icons/rx";
 import Image from "next/image";
-import { IUser } from "@/models/User";
+import { IUser } from "@/lib/models/User";
 import axios from "axios";
 import { signOut } from "next-auth/react";
 

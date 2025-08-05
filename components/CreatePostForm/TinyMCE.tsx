@@ -1,18 +1,17 @@
 "use client";
 import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+// import { Button } from "../ui/button";
 
 export default function TinyMce() {
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef?.current.getContent());
-    }
-  };
+  const editorRef = useRef<Editor["editor"] | null>(null);
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef?.current.getContent());
+  //   }
+  // };
   return (
-    <>
+    <div>
       <Editor
         apiKey="4sexq1ugevypazbmqa5gsn6giai8mmgr03sefzecdbf2a4be"
         onInit={(_evt, editor) => (editorRef.current = editor)}
@@ -52,10 +51,9 @@ export default function TinyMce() {
             "@import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Roboto&display=swap');",
         }}
       />
-      <Input className="text-white w-sm my-4" />
-      <Button onClick={log} className="bg-white hover:bg-amber-300 ">
+      {/* <Button onClick={log} className="bg-white hover:bg-amber-300 ">
         Log editor content
-      </Button>
-    </>
+      </Button> */}
+    </div>
   );
 }

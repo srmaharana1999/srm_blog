@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
+import User from "@/lib/models/User";
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
