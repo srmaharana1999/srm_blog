@@ -1,54 +1,96 @@
+import { ADMIN, URN } from "@/lib/constants";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/lib/models/User";
-import { Redis } from "@upstash/redis";
-import { NextRequest, NextResponse } from "next/server";
+import { responseJson } from "@/utils/api-response-handler";
+import { SignupTokenPayload } from "@/utils/jwt/createSignupToken";
+import { verifySignupToken } from "@/utils/jwt/verifyToken";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
-const redis = new Redis({
-    url:process.env.UPSTASH_REDIS_REST_URL,
-    token:process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
+const adminEmail = ADMIN.EMAIL;
 
-export async function POST(request:NextRequest) {
-    const adminEmail = "s.r.m.20.3.2018@gmail.com";
-    try{
-        const {username,password,avatarUrl=" ",bio} = await request.json();
-        if(!username || !password){
-            return NextResponse.json(
-                {error:"Email and Password are required."},
-                {status:400}
-            );
-        }
-
-        const verifiedEmail = await redis.get('verifiedEmail');
-        if(!verifiedEmail) {
-        return NextResponse.json({ error: "Email is not verified" }, { status: 400 });
-        }
-
-        await dbConnect();
-
-        const existingUser = await User.findOne({verifiedEmail})
-
-        if(existingUser){
-            return NextResponse.json(
-                {error:"This email is already in use."},
-                {status:400}
-            )
-        }
-        // console.log("here");
-        const isAdmin = verifiedEmail === adminEmail;
-        const newUser = await User.create({email:verifiedEmail,password,username,avatarUrl,bio,isAdmin,isVerified:true});
-        return NextResponse.json(
-            {message:"User signed up successfully",newUser},
-            {status:201}
-        )
-    }catch(error){
-        if(error instanceof Error){
-            return NextResponse.json({error:error.message},{status:500})
-        }else{
-            return NextResponse.json(
-                {error:"Failed to register User"},
-                {status:500}
-            )
-        }
+export async function POST(request: NextRequest) {
+  try {
+    const cookieStore = await cookies();
+    const { username, password, avatarUrl = "", bio } = await request.json();
+    if (!username || !password) {
+      return responseJson(
+        {
+          success: false,
+          error: "Email and Password are required.",
+        },
+        400
+      );
     }
+
+    const signup_token = cookieStore.get("signup_token");
+    if (!signup_token) {
+      return responseJson({
+        success: false,
+        message: "Token has expired. Please,start the process again.",
+      });
+    }
+    const jwtPayload: SignupTokenPayload = await verifySignupToken(
+      signup_token?.value
+    );
+
+    const verifiedEmail = jwtPayload[URN.EMAIL_CLAIM];
+    const verifiedUserId = jwtPayload.sub;
+    if (!verifiedEmail) {
+      return responseJson(
+        {
+          success: false,
+          error: "Email is not verified",
+        },
+        400
+      );
+    }
+
+    await dbConnect();
+
+    const existingUser = await User.findOne({ verifiedEmail });
+
+    if (existingUser) {
+      return responseJson(
+        {
+          success: false,
+          error: "This email is already in use.",
+        },
+        400
+      );
+    }
+    // console.log("here");
+    const isAdmin = verifiedEmail === adminEmail;
+    const user = await User.findById(verifiedUserId);
+    const reqBody = {
+      email: verifiedEmail,
+      password,
+      username,
+      avatarUrl,
+      signUpComplete: true,
+      bio,
+      isAdmin,
+      isVerified: true,
+    };
+
+    Object.assign(user, reqBody);
+
+    await user.save();
+    // const updatedUser = await user.save();
+    // console.log(updatedUser);
+    return responseJson(
+      {
+        success: true,
+        message: "User signed up successfully",
+        // data: { updatedUser },
+      },
+      201
+    );
+  } catch (error) {
+    const errMessage =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Something went wrong! Try again.";
+    return responseJson({ success: false, error: errMessage }, 500);
+  }
 }
