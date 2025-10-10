@@ -8,7 +8,7 @@ const CTA = () => {
         href="#recent"
         className="px-4 py-2 w-fit text-xl font-semibold bg-gradient-to-r from-fuchsia-500 to-cyan-500 mx-auto md:mx-0 flex items-center gap-4 border-shadow"
       >
-        Recent Posts <HiArrowNarrowRight />
+        Explore Blogs <HiArrowNarrowRight />
       </Link>
     </div>
   );

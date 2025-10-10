@@ -3,40 +3,52 @@ import ImageUpload from "@/components/ImageUpload";
 import TextArea from "@/components/Inputs/TextArea";
 import TextField from "@/components/Inputs/TextField";
 import { Button } from "@/components/ui/button";
+import {
+  initialValues,
+  SignupTypes,
+  SignupValidationSchema,
+} from "@/lib/Schema/sign-up";
 import { UploadResponse } from "@imagekit/next";
 import axios from "axios";
-import { Formik, Form } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import * as Yup from "yup";
-
-const userValidationSchema = Yup.object({
-  username: Yup.string()
-    .min(5, "Invalid username")
-    .required("username is required."),
-  password: Yup.string()
-    .min(8, "Invalid Password.")
-    .required("Password is required.")
-    .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-      "Password must be at least 8 characters and contain letters and numbers only."
-    ),
-  confirmPassword: Yup.string()
-    .required("Confirm Password is required")
-    .oneOf([Yup.ref("password")], "Passwords must match"),
-  bio: Yup.string()
-    .max(100, "Bio must be at most 100 characters.")
-    .required("Bio is required."),
-});
 
 const Signup = () => {
   const [avatarUrl, setAvatarUrl] = useState<UploadResponse>();
   const [status, setStatus] = useState("");
+  const router = useRouter();
   const handleUpload = (res: UploadResponse) => {
+    if (!res) {
+      setStatus("Image Upload failed.");
+    }
     setAvatarUrl(res);
   };
+
+  const handleSubmit = async (
+    values: SignupTypes,
+    formikHelpers: FormikHelpers<SignupTypes>
+  ) => {
+    try {
+      const response = await axios.post("/api/user/signup", {
+        username: values.username,
+        password: values.password,
+        avatarUrl: avatarUrl?.url || "/avatar.png",
+        bio: values.bio,
+      });
+      if (response.data?.success) {
+        router.push("/sign-in");
+      }
+      setStatus(response.data?.message);
+    } catch (error: any) {
+      setStatus(error.response?.data?.error || "Error in form submission.");
+    } finally {
+      formikHelpers.setSubmitting(false);
+    }
+  };
   return (
-    <div className="max-sm:w-96 max-w-md mx-auto rounded-base border-border border-2 shadow-shadow p-4  pb-3 space-y-4">
+    <div className="max-sm:w-96 mt-30 max-w-md mx-auto rounded-base border-border border-2 shadow-shadow p-4  pb-3 space-y-4">
       <div className="h-48">
         <ImageUpload onSuccess={handleUpload} />
       </div>
@@ -49,31 +61,9 @@ const Signup = () => {
       </div>
       <div>
         <Formik
-          initialValues={{
-            username: "",
-            bio: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          validationSchema={userValidationSchema}
-          onSubmit={async (values, { setSubmitting }) => {
-            try {
-              const response = await axios.post("/api/user/signup", {
-                username: values.username,
-                password: values.password,
-                avatarUrl: avatarUrl?.url || "/avatar.png",
-                bio: values.bio,
-              });
-              console.log(response);
-              console.log(values);
-            } catch (error: any) {
-              setStatus(
-                error.response?.data?.message || "Error in form submission."
-              );
-            } finally {
-              setSubmitting(false);
-            }
-          }}
+          initialValues={initialValues}
+          validationSchema={SignupValidationSchema}
+          onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
             <Form className="space-y-1 my-2">
@@ -118,9 +108,10 @@ const Signup = () => {
           )}
         </Formik>
       </div>
-      <div className="min-h-4 mt-3">
-        {status && <p className="text-xs text-red-500 text-center">{status}</p>}
-      </div>
+
+      {status && (
+        <p className="text-xs text-red-500 text-center mt-4">{status}</p>
+      )}
     </div>
   );
 };

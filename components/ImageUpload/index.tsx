@@ -100,43 +100,39 @@ const ImageUpload = (props: UploadProps) => {
   };
   return (
     <div className="w-full h-full rounded-md flex flex-col p-1">
-      <div className="h-6">
-        {progress > 0 && (
-          <progress
-            max={100}
-            value={progress}
-            className="w-full h-1"
-          ></progress>
-        )}
-      </div>
+      {/* <div className="min-h-6"> */}
+      {progress > 0 && (
+        <progress max={100} value={progress} className="w-full h-1"></progress>
+      )}
+      {/* </div> */}
 
-      <div className="w-full flex-1 grid grid-cols-2">
+      <div className="w-full flex-1 flex gap-4 ">
         <div className="w-full relative">
           <Image
             urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URLENDPOINT}
             src={response.filePath || "avatar.png"}
             fill
+            className="border-2 border-border shadow-shadow rounded-base"
             alt="Picture of the author"
             transformation={[{ width: "100%", height: "100%" }]}
           />
         </div>
-        <div className="grid grid-rows-3">
+        <div className="w-40 bg-transparent h-full grid gap-4">
           <div
-            className=" h-full w-full bg-gray-600  row-span-2 flex justify-center items-center"
+            className=" h-full w-full flex flex-col border-shadow text-white bg-gray-600 justify-center items-center"
             onClick={handleDivClick}
           >
-            <FaCloudUploadAlt className="text-7xl text-white" />
+            <FaCloudUploadAlt className="text-7xl" />
+            <p>Select A file</p>
           </div>
           <input type="file" ref={fileInputRef} className="hidden" />
-          <div className="bg-amber-200 rounded-2xl row-span-1">
-            <button
-              className=" bg-gray-800 text-white p-1 text-sm w-full h-full "
-              type="button"
-              onClick={handleUpload}
-            >
-              Upload file
-            </button>
-          </div>
+          <button
+            className="flex border-shadow items-center justify-center bg-gray-800 text-white p-1 w-full h-full "
+            type="button"
+            onClick={handleUpload}
+          >
+            Upload file
+          </button>
         </div>
       </div>
     </div>

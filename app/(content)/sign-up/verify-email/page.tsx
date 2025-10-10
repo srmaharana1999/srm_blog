@@ -11,18 +11,21 @@ const VerifyEmail = () => {
   const [status, setStatus] = useState("");
 
   return (
-    <div className="max-sm:w-96 max-w-sm mx-auto rounded-base border-border border-2 shadow-shadow p-4  pb-3">
-      {step === "generate" ? (
-        <GenerateOTPForm
-          setEmail={setEmail}
-          setStep={setStep}
-          setStatus={setStatus}
-        />
-      ) : (
-        <OTPForm email={email} setStatus={setStatus} />
-      )}
-      <div className="min-h-4">
-        {status && <p className="text-xs text-red-500 text-center">{status}</p>}
+    <div className="flex flex-col h-[100vh] items-center justify-center">
+      <div className="max-w-xs w-11/12 sm:w-full mx-auto text-white p-4 rounded-base border-border border-2 shadow-shadow">
+        {step === "generate" ? (
+          <GenerateOTPForm
+            setEmail={setEmail}
+            setStep={setStep}
+            setStatus={setStatus}
+          />
+        ) : (
+          <OTPForm email={email} setStatus={setStatus} setStep={setStep} />
+        )}
+
+        {status && (
+          <p className="text-xs text-red-500 text-center mt-4">{status}</p>
+        )}
       </div>
     </div>
   );

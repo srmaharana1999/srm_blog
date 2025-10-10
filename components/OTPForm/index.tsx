@@ -11,10 +11,12 @@ import {
 } from "../ui/input-otp";
 import { Loader2Icon } from "lucide-react";
 import { Button } from "../ui/button";
+import { TfiReload } from "react-icons/tfi";
 
 interface IOTPFormProps {
   email: string;
   setStatus: (value: string) => void;
+  setStep: (value: "generate" | "verify") => void;
 }
 
 const OTPForm = (props: IOTPFormProps) => {
@@ -30,20 +32,28 @@ const OTPForm = (props: IOTPFormProps) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     try {
-      await axios.post("/api/user/verify-otp", {
+      const response = await axios.post("/api/user/verify-otp", {
         email: props.email,
         otp: values.otp,
       });
-      props.setStatus("Email Verified Successfully.");
+      props.setStatus(response.data?.message || "Email Verified Successfully.");
 
-      router.push("/sign-up");
+      if (response.data?.data.isVerified) {
+        router.replace("/sign-up");
+      }
     } catch (error: any) {
-      props.setStatus(
-        error.response?.data?.message || "OTP verification failed"
-      );
+      console.log("otp form", error.response.data?.error);
+      props.setStatus(error.response?.data?.error || "OTP verification failed");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    props.setStep("generate");
+    props.setStatus("Generate OTP again.");
   };
   return (
     <Formik
@@ -53,8 +63,8 @@ const OTPForm = (props: IOTPFormProps) => {
       // enableReinitialize={true}
     >
       {({ values, setFieldValue, isSubmitting }) => (
-        <Form className=" text-black p-2">
-          <p className="text-lg mb-6">Enter Your OTP :-</p>
+        <Form className=" text-black space-y-6">
+          <p className="">Enter Your OTP</p>
 
           <div className=" flex justify-center">
             <InputOTP
@@ -71,40 +81,40 @@ const OTPForm = (props: IOTPFormProps) => {
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />
-              </InputOTPGroup>
-              <InputOTPSeparator />
-              <InputOTPGroup>
                 <InputOTPSlot index={2} />
-                <InputOTPSlot index={3} />
               </InputOTPGroup>
               <InputOTPSeparator />
               <InputOTPGroup>
+                <InputOTPSlot index={3} />
                 <InputOTPSlot index={4} />
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
           </div>
 
-          <div className="w-full flex flex-col items-center gap-2 justify-center mt-2">
-            <div className="min-h-4">
-              <ErrorMessage
-                name="otp"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+          <div className="w-full flex flex-col items-center gap-2 justify-center">
+            <ErrorMessage
+              name="otp"
+              component="div"
+              className="text-red-500 text-xs"
+            />
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-1/2 bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
-            >
-              {isSubmitting ? (
-                <Loader2Icon className="animate-spin" />
-              ) : (
-                "Verify OTP"
-              )}
-            </Button>
+            <div className="w-full flex justify-center items-center gap-4">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-1/2 bg-green-600 text-white rounded-md hover:bg-green-700"
+              >
+                {isSubmitting ? (
+                  <Loader2Icon className="animate-spin" />
+                ) : (
+                  "Verify OTP"
+                )}
+              </Button>
+              <Button type="button" onClick={handleClick}>
+                <TfiReload className="text-2xl" />
+              </Button>
+            </div>
           </div>
         </Form>
       )}
