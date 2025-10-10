@@ -1,17 +1,16 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req :NextRequest) {
-    try {
-        const session = await getServerSession(authOptions);
-    // console.log(session?.user);
-    if(!session){
-        return NextResponse.json({error:"unauthorized"},{status:400});
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 400 });
     }
-    const reqBody = await req.json();
-    return NextResponse.json({reqBody},{status:200});
-    } catch (error) {
-        console.log(error);
-    } 
+    return NextResponse.json({ message: "ok", user: session.user });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "server error" }, { status: 500 });
+  }
 }
