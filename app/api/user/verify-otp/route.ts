@@ -1,43 +1,99 @@
-import { Redis } from "@upstash/redis";
-import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/dbConnect";
+import User from "@/lib/models/User";
+import { createSignupToken } from "@/utils/jwt/createSignupToken";
+import { client, connectRedis } from "@/utils/redis/redis-client";
+import mongoose from "mongoose";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
+import { responseJson } from "@/utils/api-response-handler";
 
-const redis = new Redis({
-    url:process.env.UPSTASH_REDIS_REST_URL,
-    token:process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
+export interface ITempUser {
+  _id: mongoose.Types.ObjectId;
+  email: string;
+}
 
-export async function POST(req:NextRequest) {
-    try{
-        const {email,otp} = await req.json();
+export async function POST(req: NextRequest) {
+  try {
+    await Promise.all([connectRedis(), dbConnect()]);
 
-        if(!email || !otp){
-            return NextResponse.json({ message: 'Email and OTP are required' },{status:400})
-        }
+    const { email, otp } = await req.json();
 
-        const storedOtp = await redis.get(email);
-       
-        if(!storedOtp){
-            return NextResponse.json({ message: 'OTP expired or not found' },{status:400})
-        }
-
-        if(String(storedOtp) !== otp){
-            return NextResponse.json({ message: `Invalid OTP ${storedOtp} ${otp}` },{status:400})
-        }
-
-        await redis.set('verifiedEmail', email, { ex: 600 });
-
-        await redis.del(email);
-
-        return NextResponse.json({ message: 'OTP verified successfully' },{status:200})
-        }catch(error){
-        // console.log(error);
-        if(error instanceof Error){
-            return NextResponse.json({error:error.message},{status:500})
-        }else{
-            return NextResponse.json(
-                {error:'Error verifying OTP'},
-                {status:500}
-            )
-        }
+    if (!email || !otp) {
+      return responseJson(
+        {
+          success: false,
+          error: "Email and OTP field are empty. Please start again with ↻",
+        },
+        400
+      );
     }
+    const storedOtp = await client.get(email);
+    if (!storedOtp) {
+      return responseJson(
+        {
+          success: false,
+          error: "OTP expired - regenerate with ↻",
+        },
+        400
+      );
+    }
+    console.log("check-0");
+    if (storedOtp !== otp) {
+      return responseJson(
+        { success: false, error: "Wrong OTP! Enter correct OTP." },
+        400
+      );
+    }
+
+    // Create or update user profile with emailConfirmed flag
+    const user: ITempUser = await User.create({
+      email,
+      emailConfirmation: true,
+    });
+
+    if (!user) {
+      return responseJson(
+        { success: false, error: "Profile creation failed." },
+        400
+      );
+    }
+
+    const tempUser = {
+      userId: user._id.toString(),
+      email: user.email,
+    };
+
+    const token = await createSignupToken(tempUser);
+
+    if (!token) {
+      return responseJson(
+        { success: false, error: "Sign-up token generation failed." },
+        400
+      );
+    }
+
+    // Set signup_token cookie
+    (await cookies()).set("signup_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 6 * 60 * 60, // 6 hours
+      path: "/",
+    });
+    console.log("check-4");
+    await client.del(email);
+    return responseJson(
+      {
+        success: true,
+        message: "Email verified successfully",
+        data: { isVerified: true },
+      },
+      200
+    );
+  } catch (error) {
+    const errMessage =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Error verifying OTP";
+    return responseJson({ success: false, error: errMessage }, 500);
+  }
 }
