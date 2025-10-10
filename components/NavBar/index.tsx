@@ -12,11 +12,11 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const userData = session?.user;
-  // console.log("fromnavbar", userData);
+  console.log("fromnavbar", userData);
   return (
     <div className="group fixed w-full left-1/2 -translate-x-1/2 top-0 bg-[#cccccc]  border-b-1 border-border z-30 ">
       <div className=" max-w-7xl mx-auto w-full h-20 text-black flex justify-between items-center px-4">
-        <div className="text-black bg-white  lower-bar p-2 border-shadow">
+        <div className="text-black bg-white cursor-pointer lower-bar p-2 border-shadow">
           <div className="flex text-lg sm:text-3xl text-chart-1 left-bar">
             <Image
               src="/images/logo.png"
@@ -42,7 +42,6 @@ const NavBar = () => {
           <ul className="list-none hidden lg:flex gap-10 text-md ">
             <NavLink label="Home" href="/" />
             <NavLink label="Blogs" href="/blogs" />
-            <NavLink label="About" href="#" />
             <NavLink label="Contact Us" href="#contact-us" />
           </ul>
         </div>
@@ -91,13 +90,12 @@ const NavBar = () => {
         </div>
         <div
           className={`${
-            open ? "translate-x-0" : "-translate-x-[110vw]"
+            open ? "translate-x-0" : "-translate-x-[150vw]"
           } w-full absolute left-0 lg:hidden top-full h-[calc(100vh-80px)] origin-top bg-[#cccccc] transition-all duration-500 flex flex-col justify-center items-center`}
         >
           <ul className="list-none text-xl flex flex-col justify-center items-center gap-10">
             <NavLink label="Home" href="/" />
             <NavLink label="All Blogs" href="/blogs" />
-            <NavLink label="About" href="#" />
             <NavLink label="Contact Us" href="#contact-us" />
             <div className=" block lg:hidden">
               {!session ? (
