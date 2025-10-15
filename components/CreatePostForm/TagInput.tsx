@@ -72,22 +72,19 @@ const AdvancedTagInput = () => {
   return (
     <div className="w-full">
       <h2 className="text-xl">Advanced Tag Input:</h2>
-      <div className="md:flex md:justify-between mb-2">
-        <p className="text-xs text-chart-5">
-          Type to add tags or select from the autosuggest list. Max 5 tags
-          allowed.
-        </p>
-        <p
-          className={`text-xs text-chart-5 ${
-            isMaxReached
-              ? "text-red-500 font-semibold"
-              : "text-muted-foreground"
-          }`}
-        >
-          {tags.length} / {TAGS.MAX_TAGS} Tags Selected
-        </p>
-      </div>
-      <div className="space-y-4">
+      <p className="text-xs text-chart-5 leading-6">
+        Type to add tags or select from the autosuggest list. Max 5 tags
+        allowed.
+      </p>
+      <p
+        className={`text-xs mb-2 text-chart-5 ${
+          isMaxReached ? "text-red-500 font-semibold" : "text-muted-foreground"
+        }`}
+      >
+        {tags.length} / {TAGS.MAX_TAGS} Tags Selected
+      </p>
+
+      <div>
         {/* Input with Popover */}
         <div className="flex gap-2">
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -144,7 +141,7 @@ const AdvancedTagInput = () => {
             disabled={!inputValue.trim() || isMaxReached}
             size="default"
           >
-            <Plus className="h-4 w-4 mr-2" /> Add
+            <Plus className="h-4 w-4" /> Add Tag
           </Button>
         </div>
 

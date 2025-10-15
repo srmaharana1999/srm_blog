@@ -9,9 +9,9 @@ import {
   UploadResponse,
   // UploadResponse,
 } from "@imagekit/next";
-import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState, useRef } from "react";
-
+import { FaFolderOpen } from "react-icons/fa";
+import { RiUploadCloud2Fill } from "react-icons/ri";
 interface UploadProps {
   onSuccess: (res: UploadResponse) => void;
 }
@@ -99,25 +99,40 @@ const ImageUpload = (props: UploadProps) => {
     }
   };
   return (
-    <div className="w-full h-full rounded-md flex flex-col p-1">
+    <div className="w-full h-full rounded-md">
       {/* <div className="min-h-6"> */}
       {progress > 0 && (
         <progress max={100} value={progress} className="w-full h-1"></progress>
       )}
       {/* </div> */}
 
-      <div className="w-full flex-1 flex gap-4 ">
-        <div className="w-full relative">
+      <div className="w-full h-full relative">
+        <div className="w-full h-full absolute left-0 top-0 z-0">
           <Image
             urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URLENDPOINT}
             src={response.filePath || "avatar.png"}
             fill
-            className="border-2 border-border shadow-shadow rounded-base"
+            className="border-2 border-border shadow-shadow rounded-base object-contain"
             alt="Picture of the author"
             transformation={[{ width: "100%", height: "100%" }]}
           />
         </div>
-        <div className="w-40 bg-transparent h-full grid gap-4">
+        <div className="absolute right-2 bottom-2 z-10 p-1 flex items-center gap-3">
+          <div
+            className="border-shadow py-1 px-2 backdrop-blur-sm"
+            onClick={handleDivClick}
+          >
+            <FaFolderOpen className="text-3xl text-yellow-500 " />
+            <input type="file" ref={fileInputRef} className="hidden" />
+          </div>
+          <button
+            className="border-shadow py-1 px-2 backdrop-blur-sm"
+            onClick={handleUpload}
+          >
+            <RiUploadCloud2Fill className="text-3xl text-blue-600" />
+          </button>
+        </div>
+        {/* <div className="w-40 bg-transparent h-full grid gap-4">
           <div
             className=" h-full w-full flex flex-col border-shadow text-white bg-gray-600 justify-center items-center"
             onClick={handleDivClick}
@@ -133,7 +148,7 @@ const ImageUpload = (props: UploadProps) => {
           >
             Upload file
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ const CategoryInput = () => {
   return (
     <div className="w-full">
       <h2 className="text-xl">Category: </h2>
-      <p className="text-xs text-chart-5">
+      <p className="text-xs text-chart-5 mb-2">
         Choose a category or create a new one using the + button.
       </p>
       <div className="space-y-4">
@@ -75,6 +75,7 @@ const CategoryInput = () => {
                   onChange={handleInputChange}
                   onKeyDown={handleInputKeyDown}
                   onFocus={() => inputValue && setIsPopoverOpen(true)}
+                  placeholder="Add new category (press Enter)"
                   className="w-full"
                 />
               </div>
@@ -117,7 +118,7 @@ const CategoryInput = () => {
             }
             size="default"
           >
-            <Plus className="h-4 w-4 mr-2" /> Add Category
+            <Plus className="h-4 w-4" /> Add Category
           </Button>
         </div>
       </div>
