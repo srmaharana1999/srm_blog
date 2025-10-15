@@ -29,4 +29,38 @@ const SENDER = {
   PASS: process.env.EMAIL_PASS,
   SERVICE: "gmail",
 };
-export { ALG, URN, SCOPES, REDIS, ADMIN, SENDER };
+
+const TAGS = {
+  INITIAL_SUGGESTIONS: [
+    "React",
+    "Tailwind",
+    "Shadcn",
+    "TypeScript",
+    "Redux",
+    "Zustand",
+    "GraphQL",
+    "Next.js",
+  ],
+  MAX_TAGS: 5,
+};
+
+const CATEGORIES = {
+  INITIAL_SUGGESTIONS: [
+    "Software Development",
+    "JavaScript and Frontend Frameworks",
+    "Python and Data Science",
+    "DevOps and Cloud Infrastructure",
+    "Engineering Culture and System Architecture",
+    "Cybersecurity and Data Protection",
+    "Machine Learning and Artificial Intelligence",
+    "Crypto and Blockchain Technology",
+    "Technical Writing and Documentation",
+    "SaaS Product Marketing",
+    "Product Management and Project Management",
+    "Computer Science Concepts and Research",
+    "Mobile App Development",
+    "Web Development and Design",
+    "Emerging Technologies and Innovation",
+  ],
+};
+export { ALG, URN, SCOPES, REDIS, ADMIN, SENDER, TAGS, CATEGORIES };
