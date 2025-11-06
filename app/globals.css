@@ -19,7 +19,7 @@
   --chart-2: #7a83ff;
   --chart-3: #facc00;
   --chart-4: #ff4d50;
-  --chart-5: #0099ff;
+  --chart-5: oklch(55.1% 0.027 264.33);
   --chart-active-dot: #000;
 }
 
