@@ -63,4 +63,28 @@ const CATEGORIES = {
     "Emerging Technologies and Innovation",
   ],
 };
-export { ALG, URN, SCOPES, REDIS, ADMIN, SENDER, TAGS, CATEGORIES };
+
+const STATUS_OPTIONS = [
+  { value: "draft", title: "Draft", description: "Auto save your post." },
+  {
+    value: "public",
+    title: "Public",
+    description: "Post will show to everyone.",
+  },
+  {
+    value: "private",
+    title: "Private",
+    description: "Post will only show to you.",
+  },
+];
+export {
+  ALG,
+  URN,
+  SCOPES,
+  REDIS,
+  ADMIN,
+  SENDER,
+  TAGS,
+  CATEGORIES,
+  STATUS_OPTIONS,
+};
