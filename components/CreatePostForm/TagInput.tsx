@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Tag, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,10 @@ import {
 import { TAGS } from "@/lib/constants";
 import useTagManager from "@/hooks/use-tag-manager";
 import useFilteredOptions from "@/hooks/use-filtered-options";
+import { useField } from "formik";
 
 // Main Component
-const AdvancedTagInput = () => {
+const AdvancedTagInput = (props: { name: string }) => {
   const [inputValue, setInputValue] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -33,6 +34,13 @@ const AdvancedTagInput = () => {
     inputValue,
     TAGS.INITIAL_SUGGESTIONS
   );
+
+  const [, meta, helpers] = useField(props.name);
+  const { setTouched, setValue } = helpers;
+
+  useEffect(() => {
+    setValue(tags);
+  }, [tags, setValue]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
@@ -86,7 +94,7 @@ const AdvancedTagInput = () => {
 
       <div>
         {/* Input with Popover */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-2">
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
               <div className="flex-grow relative">
@@ -96,6 +104,7 @@ const AdvancedTagInput = () => {
                   onChange={handleInputChange}
                   onKeyDown={handleInputKeyDown}
                   onFocus={() => inputValue && setIsPopoverOpen(true)}
+                  onBlur={() => setTouched(true)}
                   placeholder={
                     isMaxReached
                       ? `Max ${TAGS.MAX_TAGS} tags reached`
@@ -164,6 +173,9 @@ const AdvancedTagInput = () => {
           ))}
         </div>
       </div>
+      {meta.touched && meta.error ? (
+        <p className="text-red-500 text-xs">{meta.error}</p>
+      ) : null}
     </div>
   );
 };

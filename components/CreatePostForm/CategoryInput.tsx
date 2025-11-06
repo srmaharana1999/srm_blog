@@ -16,21 +16,24 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import useCategoryManager from "@/hooks/use-category-manager";
-
+import { useField } from "formik";
 // Main Component
-const CategoryInput = () => {
+const CategoryInput = (props: { name: string }) => {
   const [inputValue, setInputValue] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
   const inputRef = useRef<HTMLInputElement>(null);
-
   const { categories, addCategory } = useCategoryManager();
+
+  const [field, meta, helpers] = useField(props.name);
+  const { setValue } = helpers;
+
   const filteredCategories = categories.filter((cat) =>
     cat.toLowerCase().includes(inputValue.toLowerCase())
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
+    setValue(value);
     setInputValue(value);
   };
 
@@ -38,6 +41,7 @@ const CategoryInput = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (addCategory(inputValue)) {
+        setValue(inputValue);
         setInputValue("");
         setIsPopoverOpen(false);
       }
@@ -47,6 +51,7 @@ const CategoryInput = () => {
   const handleSuggestionSelect = (suggestion: string): void => {
     addCategory(suggestion);
     setInputValue(suggestion);
+    setValue(suggestion);
     setIsPopoverOpen(false);
     inputRef.current?.focus();
   };
@@ -71,10 +76,11 @@ const CategoryInput = () => {
               <div className="flex-grow relative">
                 <Input
                   ref={inputRef}
-                  value={inputValue}
+                  value={field.value}
                   onChange={handleInputChange}
                   onKeyDown={handleInputKeyDown}
                   onFocus={() => inputValue && setIsPopoverOpen(true)}
+                  onBlur={() => helpers.setTouched(true)}
                   placeholder="Add new category (press Enter)"
                   className="w-full"
                 />
@@ -122,6 +128,9 @@ const CategoryInput = () => {
           </Button>
         </div>
       </div>
+      {meta.touched && meta.error ? (
+        <p className="text-red-500 text-xs">{meta.error}</p>
+      ) : null}
     </div>
   );
 };
