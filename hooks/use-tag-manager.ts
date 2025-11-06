@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 // Custom Hook for Tag Management
 const useTagManager = (maxTags: number) => {
