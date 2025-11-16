@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavLink from "./NavLink";
 import { Button } from "../ui/button";
 import { IoClose, IoMenu } from "react-icons/io5";
@@ -7,12 +7,16 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import UserMenu from "./UserMenu";
 import Image from "next/image";
+import { useCategoryState } from "@/store/useCategoryStore";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+  const fetchCategories = useCategoryState((state) => state.initCategories);
   const userData = session?.user;
-  console.log("fromnavbar", userData);
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
   return (
     <div className="group fixed w-full left-1/2 -translate-x-1/2 top-0 bg-[#cccccc]  border-b-1 border-border z-30 ">
       <div className=" max-w-7xl mx-auto w-full h-20 text-black flex justify-between items-center px-4">
