@@ -15,20 +15,27 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import useCategoryManager from "@/hooks/use-category-manager";
 import { useField } from "formik";
+import { useShallow } from "zustand/react/shallow";
+import { useCategoryState } from "@/store/useCategoryStore";
 // Main Component
 const CategoryInput = (props: { name: string }) => {
   const [inputValue, setInputValue] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { categories, addCategory } = useCategoryManager();
 
+  const { categories, loading, addCategory } = useCategoryState(
+    useShallow((store) => ({
+      categories: store.categories,
+      loading: store.loading,
+      addCategory: store.addCategory,
+    }))
+  );
   const [field, meta, helpers] = useField(props.name);
   const { setValue } = helpers;
 
   const filteredCategories = categories.filter((cat) =>
-    cat.toLowerCase().includes(inputValue.toLowerCase())
+    cat.catName.toLowerCase().includes(inputValue.toLowerCase())
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -37,10 +44,12 @@ const CategoryInput = (props: { name: string }) => {
     setInputValue(value);
   };
 
-  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
+  const handleInputKeyDown = async (
+    e: KeyboardEvent<HTMLInputElement>
+  ): Promise<void> => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (addCategory(inputValue)) {
+      if (await addCategory(inputValue)) {
         setValue(inputValue);
         setInputValue("");
         setIsPopoverOpen(false);
@@ -56,8 +65,8 @@ const CategoryInput = (props: { name: string }) => {
     inputRef.current?.focus();
   };
 
-  const handleAddClick = (): void => {
-    if (addCategory(inputValue)) {
+  const handleAddClick = async (): Promise<void> => {
+    if (await addCategory(inputValue)) {
       setInputValue("");
       setIsPopoverOpen(false);
     }
@@ -100,15 +109,19 @@ const CategoryInput = (props: { name: string }) => {
                 <CommandList>
                   <CommandEmpty>No suggestions found.</CommandEmpty>
                   <CommandGroup heading="Suggestions">
-                    {filteredCategories.map((suggestion) => (
-                      <CommandItem
-                        key={suggestion}
-                        value={suggestion}
-                        onSelect={() => handleSuggestionSelect(suggestion)}
-                      >
-                        {suggestion}
-                      </CommandItem>
-                    ))}
+                    {loading ? (
+                      <p>Loading..</p>
+                    ) : (
+                      filteredCategories.map((cat) => (
+                        <CommandItem
+                          key={cat.catSlug}
+                          value={cat.catSlug}
+                          onSelect={() => handleSuggestionSelect(cat.catSlug)}
+                        >
+                          {cat.catName}
+                        </CommandItem>
+                      ))
+                    )}
                   </CommandGroup>
                 </CommandList>
               </Command>
@@ -119,7 +132,7 @@ const CategoryInput = (props: { name: string }) => {
             onClick={handleAddClick}
             disabled={
               !!categories.find((cat) =>
-                cat.toLowerCase().includes(inputValue.toLowerCase())
+                cat.catName.toLowerCase().includes(inputValue.toLowerCase())
               )
             }
             size="default"
