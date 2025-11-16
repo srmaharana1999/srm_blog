@@ -1,3 +1,4 @@
+"use client";
 import {
   Select,
   SelectContent,
@@ -5,16 +6,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCategoryState } from "@/store/useCategoryStore";
+import { useShallow } from "zustand/react/shallow";
 const CategorySelector = () => {
+  const { categories, loading } = useCategoryState(
+    useShallow((store) => ({
+      categories: store.categories,
+      loading: store.loading,
+    }))
+  );
+  console.log(categories);
   return (
     <Select>
       <SelectTrigger className=" w-full border-shadow">
         <SelectValue placeholder="Category" className="text-black" />
       </SelectTrigger>
       <SelectContent className="text-black">
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
+        {categories.length <= 0 && loading ? (
+          <p>Loading</p>
+        ) : (
+          categories.map((category) => (
+            <SelectItem
+              key={category.id?.toString() || category.catSlug}
+              value={category.catSlug}
+            >
+              {category.catName}
+            </SelectItem>
+          ))
+        )}
       </SelectContent>
     </Select>
   );
