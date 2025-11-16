@@ -8,9 +8,9 @@ export async function GET() {
     const categories = await Category.find({}).sort({ createdAt: -1 }).lean();
     console.log("GET Categories", categories);
     if (categories.length === 0 || !categories) {
-      return NextResponse.json({ data: [] }, { status: 400 });
+      return NextResponse.json([], { status: 400 });
     }
-    return NextResponse.json({ data: categories }, { status: 200 });
+    return NextResponse.json(categories, { status: 200 });
   } catch (error) {
     console.log("GET Categories", error);
     return NextResponse.json(
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const newCategory = await Category.create(reqBody);
     console.log("POST Categories", newCategory);
 
-    return NextResponse.json({ data: newCategory }, { status: 200 });
+    return NextResponse.json(newCategory, { status: 200 });
   } catch (error) {
     console.log("POST Categories", error);
     return NextResponse.json(
