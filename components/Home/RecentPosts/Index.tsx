@@ -60,13 +60,13 @@ const RecentPosts = () => {
       </div>
 
       <Carousel
-        className="w-10/12 mx-auto"
+        className="w-11/12 mx-auto"
         opts={{ slidesToScroll: "auto", dragFree: true }}
       >
         {" "}
         <CarouselContent className="mx-auto m-4">
           {blogs.map((blog, index) => (
-            <CarouselItem key={index} className=" lg:basis-1/2">
+            <CarouselItem key={index} className=" lg:basis-1/3">
               <RecentPostTile {...blog} />
             </CarouselItem>
           ))}
