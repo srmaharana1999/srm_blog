@@ -20,20 +20,25 @@ import { TAGS } from "@/lib/constants";
 import useTagManager from "@/hooks/use-tag-manager";
 import useFilteredOptions from "@/hooks/use-filtered-options";
 import { useField } from "formik";
+import { useTagState } from "@/store/useTagStore";
+import { useShallow } from "zustand/react/shallow";
 
 // Main Component
 const AdvancedTagInput = (props: { name: string }) => {
   const [inputValue, setInputValue] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { data, createTag } = useTagState(
+    useShallow((store) => ({
+      data: store.tags,
+      createTag: store.addTag,
+    }))
+  );
 
+  const rawTags = data.map((tag) => tag.tagName);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { tags, addTag, removeTag } = useTagManager(TAGS.MAX_TAGS);
-  const suggestions = useFilteredOptions(
-    tags,
-    inputValue,
-    TAGS.INITIAL_SUGGESTIONS
-  );
+  const suggestions = useFilteredOptions(tags, inputValue, rawTags);
 
   const [, meta, helpers] = useField(props.name);
   const { setTouched, setValue } = helpers;
@@ -47,10 +52,13 @@ const AdvancedTagInput = (props: { name: string }) => {
     setInputValue(value);
   };
 
-  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
+  const handleInputKeyDown = async (
+    e: KeyboardEvent<HTMLInputElement>
+  ): Promise<void> => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (addTag(inputValue)) {
+        await createTag(inputValue);
         setInputValue("");
         setIsPopoverOpen(false);
       }
@@ -68,8 +76,9 @@ const AdvancedTagInput = (props: { name: string }) => {
     inputRef.current?.focus();
   };
 
-  const handleAddClick = (): void => {
+  const handleAddClick = async (): Promise<void> => {
     if (addTag(inputValue)) {
+      await createTag(inputValue);
       setInputValue("");
       setIsPopoverOpen(false);
     }
