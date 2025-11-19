@@ -8,9 +8,9 @@ export async function GET() {
     const tags = await Tag.find({}).sort({ createdAt: -1 }).lean().exec();
     console.log("GET Tags", tags);
     if (tags.length === 0 || !tags) {
-      return NextResponse.json({ data: [] }, { status: 400 });
+      return NextResponse.json([], { status: 400 });
     }
-    return NextResponse.json({ data: tags }, { status: 200 });
+    return NextResponse.json(tags, { status: 200 });
   } catch (error) {
     console.log("GET Tags", error);
     return NextResponse.json(
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     const newTag = await Tag.create(reqBody);
     console.log("POST Tag", newTag);
 
-    return NextResponse.json({ data: newTag }, { status: 200 });
+    return NextResponse.json(newTag, { status: 200 });
   } catch (error) {
     console.log("POST Tag", error);
     return NextResponse.json(
