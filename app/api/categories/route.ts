@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
     }
 
     const newCategory = await Category.create(reqBody);
-    console.log("POST Categories", newCategory);
 
     return NextResponse.json(newCategory, { status: 200 });
   } catch (error) {
