@@ -58,7 +58,6 @@ const CategoryInput = (props: { name: string }) => {
   };
 
   const handleSuggestionSelect = (suggestion: string): void => {
-    addCategory(suggestion);
     setInputValue(suggestion);
     setValue(suggestion);
     setIsPopoverOpen(false);
@@ -115,8 +114,8 @@ const CategoryInput = (props: { name: string }) => {
                       filteredCategories.map((cat) => (
                         <CommandItem
                           key={cat.catSlug}
-                          value={cat.catSlug}
-                          onSelect={() => handleSuggestionSelect(cat.catSlug)}
+                          value={cat.catName}
+                          onSelect={() => handleSuggestionSelect(cat.catName)}
                         >
                           {cat.catName}
                         </CommandItem>
