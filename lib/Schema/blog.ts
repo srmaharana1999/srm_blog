@@ -1,16 +1,5 @@
 import * as Yup from "yup";
 import { TAGS } from "../constants";
-export const initialBlogPostValues = {
-  title: "",
-  // slug: "",
-  content: "",
-  featuredImage: "",
-  status: "draft",
-  allowComments: true,
-  tags: [], // Array of tag ObjectIds (as strings)
-  // ownerId: "",
-  categoryId: "", // Will come from dropdown/select input
-};
 
 const isEmptyHTML = (value?: string) => {
   if (!value) return true;
@@ -23,13 +12,11 @@ const isEmptyHTML = (value?: string) => {
 
 export const postValidationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required."),
-
   // slug: Yup.string()
   //   .min(10, "Slug must be at least 10 characters.")
   //   .required("Slug is required."),
-
   content: Yup.string()
-    .min(50, "Content must be at least 50 characters.")
+    .min(1, "Content must be at least 1 characters.")
     .required("Content is required.")
     .test(
       "is-not-empty-html",
@@ -42,15 +29,12 @@ export const postValidationSchema = Yup.object().shape({
     .notRequired(),
 
   status: Yup.string()
-    .oneOf(
-      ["draft", "private", "public"],
-      "Status must be draft, private, or public."
-    )
+    .oneOf(["draft", "private", "public"], "Invalid status")
     .required("Status is required."),
 
   allowComments: Yup.boolean().default(true),
 
-  tags: Yup.array()
+  tagIds: Yup.array()
     .of(Yup.string().required("Tag ID is required."))
     .min(1, "At least one tag is required")
     .max(TAGS.MAX_TAGS, `No more than ${TAGS.MAX_TAGS} tags allowed`)
@@ -62,11 +46,24 @@ export const postValidationSchema = Yup.object().shape({
 });
 
 export type BlogPostType = Yup.InferType<typeof postValidationSchema>;
-// export interface blogPostType {
-//   title: String;
-//   featuredImage: String;
-//   status: String;
-//   allowComments: String;
-//   tags: Array;
-//   categoryId: String;
+
+export const initialBlogPostValues: BlogPostType = {
+  title: "",
+  // slug: "",
+  content: "",
+  featuredImage: undefined,
+  status: "draft",
+  allowComments: true,
+  tagIds: [], // Array of tag ObjectIds (as strings)
+  // ownerId: "",
+  categoryId: "", // Will come from dropdown/select input
+};
+// export interface BlogPostType {
+//   title: string;
+//   featuredImage: string;
+//   status: "draft" | "private" | "public";
+//   allowComments: boolean;
+//   content: string;
+//   tags: string[];
+//   categoryId: string;
 // }
