@@ -1,7 +1,7 @@
 import mongoose, { models } from "mongoose";
 
 export interface ICategory {
-  id?: mongoose.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
   catName: string;
   catSlug: string;
   createdAt?: Date;

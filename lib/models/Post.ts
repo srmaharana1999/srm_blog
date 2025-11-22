@@ -1,7 +1,7 @@
 import mongoose, { models } from "mongoose";
 
 export interface IPost {
-  id?: mongoose.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
   title: string;
   content: string;
   slug: string;
