@@ -139,16 +139,11 @@ export function SimpleEditor({ name }: { name: string }) {
     content: field.value || "<p>hello</p>",
     onUpdate: ({ editor }) => {
       setFieldValue(name, editor.getHTML());
-      console.log(editor.getJSON());
-      console.log(editor.getHTML());
     },
     onBlur: () => {
       handleBlur({ target: { name } });
     },
   });
-  console.log(editor?.getText());
-  console.log(editor?.getJSON());
-  console.log(editor?.getHTML());
   return (
     <div>
       <div className="simple-editor-wrapper relative shadow-shadow">
