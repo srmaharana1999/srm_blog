@@ -21,7 +21,7 @@ const NavBar = () => {
     fetchTags();
   }, [fetchCategories, fetchTags]);
   return (
-    <div className="group fixed w-full left-1/2 -translate-x-1/2 top-0 bg-[#cccccc]  border-b-1 border-border z-30 ">
+    <div className="group fixed w-full left-1/2 -translate-x-1/2 top-0 bg-[#cccccc]  border-b-1 border-border z-100 ">
       <div className=" max-w-7xl mx-auto w-full h-20 text-black flex justify-between items-center px-4">
         <div className="text-black bg-white cursor-pointer lower-bar p-2 border-shadow">
           <div className="flex text-lg sm:text-3xl text-chart-1 left-bar">
@@ -48,7 +48,7 @@ const NavBar = () => {
         <div>
           <ul className="list-none hidden lg:flex gap-10 text-md ">
             <NavLink label="Home" href="/" />
-            <NavLink label="Blogs" href="/blogs" />
+            <NavLink label="Blogs" href="/test" />
             <NavLink label="Contact Us" href="#contact-us" />
           </ul>
         </div>
