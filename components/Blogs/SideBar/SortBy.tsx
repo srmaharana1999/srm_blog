@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,12 +14,10 @@ const SortBy = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="bg-green-100 w-32 text-black inline-flex items-center justify-evenly">
-          Sort By <BiSolidSortAlt />
-        </Button>
+      <DropdownMenuTrigger className="bg-gray-300 text-gray-700 text-sm capitalize w-full inline-flex items-center justify-between px-4 py-2 border-2 border-black rounded">
+        Sort By <BiSolidSortAlt />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="">
+      <DropdownMenuContent align="start" className="bg-gray-400" sideOffset={0}>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <DropdownMenuRadioItem value="AtoZ">A to Z</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="ZtoA">Z to A</DropdownMenuRadioItem>
