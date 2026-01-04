@@ -9,14 +9,17 @@ import { FaTags } from "react-icons/fa6";
 import AllBlogs from "../AllBlogs";
 import { AiOutlineClear } from "react-icons/ai";
 import { IoCreate } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
 import { FaSort } from "react-icons/fa6";
 import SortBy from "./SortBy";
 import TagSelector from "./TagSelector";
 import CategorySelector from "./CategorySelector";
+import { IPost } from "@/lib/models/Post";
 
-const BlogSideBar = () => {
+const BlogSideBar = (props: { blogs: IPost[] }) => {
   const [isOpen, setOpen] = useState(false);
+  const [blogs, setBlogs] = useState<IPost[]>(props.blogs);
+
+  
 
   return (
     <div className="relative mt-20 h-[calc(100vh-5rem)]">
@@ -33,12 +36,6 @@ const BlogSideBar = () => {
             </button>
           </div>
           <div className="flex flex-col flex-1 items-center gap-4 py-4">
-            <button
-              className="p-2 rounded-md hover:bg-black/40"
-              onClick={() => setOpen((prev) => !prev)}
-            >
-              <FaSearch className="text-2xl" />
-            </button>
             <button
               className="p-2 rounded-md hover:bg-white/20"
               onClick={() => setOpen((prev) => !prev)}
@@ -89,27 +86,15 @@ const BlogSideBar = () => {
             </button>
           </div>
           <div className="flex flex-col flex-1 items-center text-gray-900 gap-4 py-4 px-4 ">
-            <div className=" w-full bg-gray-300 p-1.5 border-2 rounded border-black h-fit">
-              {/* <MdSearch className="text-2xl text-gray-400" /> */}
-
-              <input
-                className="outline-none w-full"
-                name="search"
-                placeholder="Search"
-                // onChange={handleSearch}
-              />
-            </div>
             <CategorySelector />
             <TagSelector />
             <SortBy />
           </div>
         </div>
       </aside>
-
-      {/* Main content (full width, sidebar floats over it) */}
-      <main className="h-full ml-12 bg-gray-50 p-6 overflow-y-scroll">
-        <AllBlogs />
-      </main>
+      <div className="h-full ml-12 bg-gray-50 p-6 overflow-y-scroll">
+        <AllBlogs blogs={blogs} />
+      </div>
     </div>
   );
 };
