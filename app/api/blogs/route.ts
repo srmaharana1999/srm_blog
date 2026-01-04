@@ -11,10 +11,10 @@ export async function GET() {
     console.log("GET POSTS", posts);
 
     if (posts.length === 0 || !posts) {
-      return NextResponse.json({ data: [] }, { status: 400 });
+      return NextResponse.json([], { status: 400 });
     }
 
-    return NextResponse.json({ data: posts }, { status: 200 });
+    return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.log("GET POSTS", error);
     return NextResponse.json(
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const newPost = await Post.create(postBody);
     console.log("POST POSTS", newPost);
 
-    return NextResponse.json({ data: newPost }, { status: 200 });
+    return NextResponse.json(newPost, { status: 200 });
   } catch (error) {
     console.log("POST POSTS", error);
     return NextResponse.json(

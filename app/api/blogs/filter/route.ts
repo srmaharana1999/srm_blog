@@ -23,7 +23,6 @@ export async function GET(req: NextRequest) {
     const tagSlugsParam = searchParams.get("tagSlug");
     const statusParam = searchParams.get("s");
     const titleSearch = searchParams.get("q");
-
     const query: IQuery = {};
 
     // Fetch category if categorySlug present
@@ -75,14 +74,14 @@ export async function GET(req: NextRequest) {
     // Query posts based on built query
     const posts = await Post.find(query)
       .populate("categoryId")
-      .populate("tags")
+      .populate("tagIds")
       .exec();
 
     if (posts.length === 0 || !posts) {
-      return NextResponse.json({ data: [] }, { status: 400 });
+      return NextResponse.json([], { status: 400 });
     }
 
-    return NextResponse.json({ data: posts }, { status: 200 });
+    return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.error("POST-FILTER GET", error);
     return NextResponse.json(
