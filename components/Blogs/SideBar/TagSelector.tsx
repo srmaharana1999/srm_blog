@@ -22,31 +22,23 @@ import { useState } from "react";
 export default function TagSelector() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
 
-  const { tags, loading } = useTagState(
+  const { tags, loading, toggleTag, selectedTags, isSelected } = useTagState(
     useShallow((store) => ({
       tags: store.tags,
       loading: store.loading,
+      toggleTag: store.toggleTag,
+      selectedTags: store.selectedTags,
+      isSelected: store.isSelected,
     }))
   );
 
-  const selectedNames = tags
-    .filter((t) => selected.includes(t.tagSlug))
-    .map((t) => t.tagName);
-
-  const toggleTag = (slug: string) => {
-    setSelected((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
-    );
-  };
-
   const buttonLabel =
-    selected.length === 0
+    selectedTags.length === 0
       ? "Select Tags..."
-      : selected.length <= 3
-      ? selectedNames.join(", ")
-      : `${selected.length} selected`;
+      : selectedTags.length <= 3
+      ? selectedTags.map((t) => t.tagName).join(", ")
+      : `${selectedTags.length} selected`;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -84,8 +76,8 @@ export default function TagSelector() {
                     <CommandItem
                       key={tag.tagSlug}
                       value={tag.tagSlug}
-                      onSelect={(currentValue) => {
-                        toggleTag(currentValue);
+                      onSelect={() => {
+                        toggleTag(tag);
                       }}
                     >
                       <span>{tag.tagName}</span>
@@ -93,9 +85,7 @@ export default function TagSelector() {
                       <CheckIcon
                         className={cn(
                           "ml-auto",
-                          selected.includes(tag.tagSlug)
-                            ? "opacity-100"
-                            : "opacity-0"
+                          isSelected(tag.tagSlug) ? "opacity-100" : "opacity-0"
                         )}
                       />
                     </CommandItem>

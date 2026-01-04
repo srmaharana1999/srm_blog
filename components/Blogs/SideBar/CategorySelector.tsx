@@ -25,30 +25,28 @@ import { useState } from "react";
 export default function CategorySelector() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string[]>([]);
-  const { categories, loading } = useCategoryState(
+  const {
+    categories,
+    loading,
+    selectedCategories,
+    toggleCategory,
+    isSelected,
+  } = useCategoryState(
     useShallow((store) => ({
       categories: store.categories,
       loading: store.loading,
+      selectedCategories: store.selectedCategories,
+      toggleCategory: store.toggleCategory,
+      isSelected: store.isSelected,
     }))
   );
 
-  const selectedNames = categories
-    .filter((cat) => selected.includes(cat.catSlug))
-    .map((c) => c.catName);
-
-  const toggleCategory = (slug: string) => {
-    setSelected((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
-    );
-  };
-
   const buttonLabel =
-    selected.length === 0
+    selectedCategories.length === 0
       ? "Select Category..."
-      : selectedNames.length <= 1
-      ? selectedNames.join(",")
-      : `${selectedNames.length} selected`;
+      : selectedCategories.length <= 3
+      ? selectedCategories.map((c) => c.catName).join(",")
+      : `${selectedCategories.length} selected`;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -85,24 +83,22 @@ export default function CategorySelector() {
                     <CommandItem
                       key={cat.catSlug}
                       value={cat.catSlug}
-                      onSelect={(currentValue) => {
-                        toggleCategory(currentValue);
+                      onSelect={() => {
+                        toggleCategory(cat);
                       }}
                     >
                       {cat.catName}
                       <CheckIcon
                         className={cn(
                           "ml-auto",
-                          selected.includes(cat.catSlug)
-                            ? "opacity-100"
-                            : "opacity-0"
+                          isSelected(cat.catSlug) ? "opacity-100" : "opacity-0"
                         )}
                       />
                     </CommandItem>
                   ))
               )}
             </CommandGroup>
-            <CommandEmpty>No Data.</CommandEmpty>
+            <CommandEmpty>No categories found</CommandEmpty>
           </CommandList>
         </Command>
       </PopoverContent>

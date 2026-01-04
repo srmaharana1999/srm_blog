@@ -3,14 +3,19 @@ import { ICategory } from "@/lib/models/Category";
 import { create } from "zustand";
 interface CategoryState {
   categories: ICategory[];
+  selectedCategories: ICategory[];
   loading: boolean;
   error: string | null;
+
   initCategories: () => Promise<void>;
   addCategory: (value: string) => Promise<boolean>;
+  toggleCategory: (category: ICategory) => void;
+  isSelected: (slug: string) => boolean;
 }
 
 export const useCategoryState = create<CategoryState>()((set, get) => ({
   categories: [],
+  selectedCategories: [],
   loading: false,
   error: null,
   initCategories: async () => {
@@ -45,4 +50,16 @@ export const useCategoryState = create<CategoryState>()((set, get) => ({
       return false;
     }
   },
+  toggleCategory: (category) => {
+    const selected = get().selectedCategories;
+    const exists = selected.some((c) => c.catSlug === category.catSlug);
+
+    set({
+      selectedCategories: exists
+        ? selected.filter((c) => c.catSlug !== category.catSlug)
+        : [...selected, category],
+    });
+  },
+  isSelected: (slug) =>
+    get().selectedCategories.some((c) => c.catSlug === slug),
 }));

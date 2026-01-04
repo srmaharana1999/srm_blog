@@ -4,14 +4,19 @@ import { create } from "zustand";
 
 interface TagState {
   tags: ITag[];
+  selectedTags: ITag[];
   loading: boolean;
   error: string | null;
+
   initTags: () => Promise<void>;
   addTag: (value: string) => Promise<void>;
+  toggleTag: (tag: ITag) => void;
+  isSelected: (slug: string) => boolean;
 }
 
 export const useTagState = create<TagState>()((set, get) => ({
   tags: [],
+  selectedTags: [],
   loading: false,
   error: null,
   initTags: async () => {
@@ -44,4 +49,14 @@ export const useTagState = create<TagState>()((set, get) => ({
       });
     }
   },
+  toggleTag: (tag) => {
+    const selected = get().selectedTags;
+    const exists = selected.some((t) => t.tagSlug === tag.tagSlug);
+    set({
+      selectedTags: exists
+        ? selected.filter((t) => t.tagSlug !== tag.tagSlug)
+        : [...selected, tag],
+    });
+  },
+  isSelected: (slug) => get().selectedTags.some((t) => t.tagSlug === slug),
 }));
